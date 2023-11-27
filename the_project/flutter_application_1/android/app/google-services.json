@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1089828086445",
+    "project_id": "wasally-f973e",
+    "storage_bucket": "wasally-f973e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089828086445:android:2593e5fe977073ad361c24",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvxaI70RjrOshZog8qun-CFLTYucIMCyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
