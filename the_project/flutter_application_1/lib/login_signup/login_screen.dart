@@ -1,57 +1,77 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print, sized_box_for_whitespace
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/home.dart';
+// import 'package:project1/layout/layout.dart';
+// import 'package:project1/login_signup/signup_choose.dart';
+import '../layout/layout.dart';
+import '../login_signup/signup_choose.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool? isDriver;
 
   Future<void> _searchUser(
       BuildContext context, String email, String password) async {
     try {
-      // ابحث عن المستخدم في مجموعة "users"
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      QuerySnapshot driversearch = await FirebaseFirestore.instance
+          .collection('drivers')
+          .where('username', isEqualTo: email)
+          .where('password', isEqualTo: password)
+          .get();
+      QuerySnapshot usersearch = await FirebaseFirestore.instance
           .collection('users')
           .where('username', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
 
-      // تحقق مما إذا كان هناك بيانات تحتوي على البريد الإلكتروني وكلمة المرور
-      if (querySnapshot.docs.isNotEmpty) {
-        print('User has been found');
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Logging In'),
-              content: Text('You have logged in successfully'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => home()));
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-        // يمكنك تنفيذ الإجراءات التي تريدها هنا
+      if (driversearch.docs.isNotEmpty) {
+        print('driver has been found');
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return AlertDialog(
+        //       title: Text('Logging In'),
+        //       content: Text('You have logged in successfully'),
+        //       actions: [
+        //         TextButton(
+        //           onPressed: () {
+        isDriver = true;
+        Navigator.push(
+            context,
+            MaterialPageRoute
+                // (builder: (context) => const DeliveryHome()));
+                (builder: (context) => LayoutScreen(isDriver!)));
+        //           },
+        //           child: Text('OK'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
+      } else if (usersearch.docs.isNotEmpty) {
+        print('user has been found');
+        isDriver = false;
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => LayoutScreen(isDriver!)));
+        //(builder: (context) => const DeliveryHome()));
+        //
       } else {
-        print('Username or password is incorrect');
+        print('email or password is incorrect');
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Logging In'),
-              content: Text('Username or password is incorrect'),
+              title: const Text('Logging In'),
+              content: const Text('email or password is incorrect'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -64,14 +84,14 @@ class LoginScreen extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('An error occurred during the login process'),
+            title: const Text('Error'),
+            content: const Text('An error occurred during the login process'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -90,7 +110,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Image.asset(
@@ -108,22 +128,22 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    Text(
+                    const Text(
                       "Welcome Back!",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 18,
                     ),
-                    Text(
+                    const Text(
                       "Login to your existing account",
                       style: TextStyle(color: Colors.grey, fontSize: 18),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -133,12 +153,12 @@ class LoginScreen extends StatelessWidget {
                         controller: emailController,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.orange),
+                            borderSide: const BorderSide(color: Colors.orange),
                             borderRadius: BorderRadius.circular(28),
                           ),
                           labelText: "Email address",
-                          labelStyle: TextStyle(color: Colors.black),
-                          prefixIcon: Icon(
+                          labelStyle: const TextStyle(color: Colors.black),
+                          prefixIcon: const Icon(
                             Icons.email,
                             color: Colors.grey,
                           ),
@@ -148,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -158,16 +178,16 @@ class LoginScreen extends StatelessWidget {
                         controller: passwordController,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.orange),
+                            borderSide: const BorderSide(color: Colors.orange),
                             borderRadius: BorderRadius.circular(28),
                           ),
                           labelText: "Password",
-                          labelStyle: TextStyle(color: Colors.black),
-                          prefixIcon: Icon(
+                          labelStyle: const TextStyle(color: Colors.black),
+                          prefixIcon: const Icon(
                             Icons.lock,
                             color: Colors.grey,
                           ),
-                          suffixIcon: Icon(
+                          suffixIcon: const Icon(
                             Icons.remove_red_eye_sharp,
                             color: Colors.grey,
                           ),
@@ -177,11 +197,11 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 180.0, top: 13),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 180.0, top: 13),
                       child: Text("forget password?"),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 11,
                     ),
                     Container(
@@ -193,16 +213,13 @@ class LoginScreen extends StatelessWidget {
                         ),
                         color: Colors.orange,
                         onPressed: () {
-                          // استخدام القيمة المأخوذة من حقل البريد الإلكتروني
                           String email = emailController.text;
-                          // استخدام القيمة المأخوذة من حقل كلمة المرور
+
                           String password = passwordController.text;
                           _searchUser(context, email, password);
                           print("$email   $password");
-                          // قم بتنفيذ الإجراءات المطلوبة مثل عملية التوثيق أو إرسالها إلى خادم للتحقق من صحة المستخدم
-                          // ...
                         },
-                        child: Text(
+                        child: const Text(
                           "LOGIN",
                           style: TextStyle(
                             color: Colors.white,
@@ -216,12 +233,21 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 70.0),
                       child: Row(
                         children: [
-                          Text(
+                          const Text(
                             'Don\'t have an account?',
                           ),
                           TextButton(
-                            onPressed: () {},
-                            child: Text(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext) {
+                                    return SignUpChoose();
+                                  },
+                                ),
+                              );
+                            },
+                            child: const Text(
                               'Sign up',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
