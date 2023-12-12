@@ -84,18 +84,20 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                         child: TextFormField(
                           controller: usernameController,
                           decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.orange),
-                                  borderRadius: BorderRadius.circular(28)),
-                              labelText: " Username",
-                              labelStyle: const TextStyle(color: Colors.black),
-                              prefixIcon: const Icon(
-                                Icons.account_circle_outlined,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(28))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.orange),
+                                borderRadius: BorderRadius.circular(28)),
+                            labelText: " Username",
+                            labelStyle: const TextStyle(color: Colors.black),
+                            prefixIcon: const Icon(
+                              Icons.account_circle_outlined,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'required user name';
@@ -232,7 +234,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                   context,
                                   MaterialPageRoute(
                                     // builder: (context) => SignUpChoose(),
-                                    builder: (context) => LoginScreen(),
+                                    builder: (context) => const LoginScreen(),
                                   ));
                             }
                           },
@@ -255,7 +257,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
+                                      builder: (context) => const LoginScreen(),
                                     ));
                               },
                               child: const Text(

@@ -1,23 +1,62 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project1/models/neworder.dart';
+// import 'package:project1/screens/tracking_screen.dart';
+import '../screens/tracking_screen.dart';
 
 // ignore: must_be_immutable
 class DeliveryHome extends StatelessWidget {
   DeliveryHome({super.key});
 
-  CollectionReference neworder =
+  CollectionReference orderadded =
       FirebaseFirestore.instance.collection('neworder');
+//{fromcity: assa, toaddress: ss, toname: ss,
+// toflat: ass, tophone: 0105, fromname: roma,
+// tohouse: ass, tostreet: ass, fromstreet: ss,
+// tocity: ass, fromflat: 12, fromhouse: 12, fromphone: 0106}
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: neworder.get(),
+      future: orderadded.get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return const Text("Loading");
         }
-        print(snapshot.data!.docs[0].data());
+        // print(snapshot.data!.docs[0].data());
+        // var firstDocumentData = snapshot.data!.docs[0].data();
+
+        // String startpoint = firstDocumentData!['fromstreet'];
+
+        // newOrder n1 = newOrder();
+
+        Map<String, dynamic>? firstDocumentData =
+            snapshot.data!.docs[0].data() as Map<String, dynamic>?;
+
+        if (firstDocumentData != null) {
+          // Access data from the first document
+
+          print(firstDocumentData);
+
+          // Access a specific field (e.g., 'fromstreet')
+
+          String startpoint = firstDocumentData['fromstreet'];
+          String endpoint = firstDocumentData['tostreet'];
+          String senderphone = firstDocumentData['fromphone'];
+          // newOrder n1 = newOrder(startpoint :startpoint,endpoint,senderphone);
+
+          // You can also iterate through all documents if needed
+
+          for (var document in snapshot.data!.docs) {
+            var documentData = document.data() as Map<String, dynamic>;
+
+            // Process each document data here
+          }
+        } else {
+          print("No data available");
+        }
+
         return Scaffold(
           // appBar: AppBar(
           //     title: Padding(
@@ -96,12 +135,12 @@ class DeliveryHome extends StatelessWidget {
                                 ),
                                 Container(
                                   width: 300,
-                                  height: 185,
-                                  child: const Column(
+                                  height: 200,
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
@@ -140,36 +179,56 @@ class DeliveryHome extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
-                                      Text('Benziena Mobile ',
+                                      const Text('Benziena Mobile ',
                                           style: TextStyle(fontSize: 25)),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
-                                      Text('Bus Station ',
+                                      const Text('Bus Station ',
                                           style: TextStyle(fontSize: 25)),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
-                                      Text('0123456789',
+                                      const Text('0123456789',
                                           style: TextStyle(
                                             fontSize: 25,
                                           )),
-                                      Divider(
+                                      const Divider(
                                           color: Colors.orangeAccent,
                                           thickness: 3,
                                           endIndent: 25),
                                       Row(children: [
-                                        Text('20\$',
+                                        const Text('20\$',
                                             style: TextStyle(fontSize: 25)),
-                                        Spacer(),
-                                        Text("Accept",
-                                            style: TextStyle(
-                                                color: Colors.orange,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25)),
+                                        const Spacer(),
+                                        Container(
+                                          width: 110,
+                                          height: 40,
+                                          child: MaterialButton(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18)),
+                                            color: Colors.orange,
+                                            onPressed: () {
+                                              {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const TrackingScreen(),
+                                                    ));
+                                              }
+                                            },
+                                            child: const Text("Accept",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 22)),
+                                          ),
+                                        ),
                                       ])
                                     ],
                                   ),
