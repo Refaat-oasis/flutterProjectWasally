@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
         width: 400,
         child: Center(
           child: Image.asset(
-            "assets/images/img.png",
+            "assets/images/dilevery_logo.png",
             fit: BoxFit.cover,
           ),
         ),

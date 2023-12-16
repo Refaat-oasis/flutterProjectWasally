@@ -18,7 +18,7 @@ class AfterSplash extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             Image.asset(
-              "assets/images/img.png",
+              "assets/images/dilevery_logo.png",
               width: 200,
               height: 200,
             ),
