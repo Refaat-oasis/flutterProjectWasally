@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/signup_choose.dart';
 import '../login_signup/signup_choose.dart';
 
+// ignore: must_be_immutable
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+  String? username;
+  SettingScreen(this.username, {super.key});
 
   @override
   State<SettingScreen> createState() => _SignUpCustomerState();

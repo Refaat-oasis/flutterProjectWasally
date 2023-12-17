@@ -2,8 +2,10 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'chats_detiels_screen.dart';
 
+// ignore: must_be_immutable
 class ChatsScreen extends StatelessWidget {
-  const ChatsScreen({super.key});
+  String? username;
+  ChatsScreen(this.username, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ChatsScreen extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatsDetailsScreen(),
+                builder: (context) => ChatsDetailsScreen(username),
               ));
         },
         child: const Padding(

@@ -8,7 +8,7 @@ import '../login_signup/login_screen.dart';
 import '../login_signup/signup_choose.dart';
 
 class SignUpDilevery extends StatefulWidget {
-  SignUpDilevery({super.key});
+  const SignUpDilevery({super.key});
 
   @override
   State<SignUpDilevery> createState() => _SignUpDileveryState();
@@ -18,13 +18,9 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
   bool isVisible = true;
   var formKey = GlobalKey<FormState>();
   final TextEditingController phonenumbercontroller = TextEditingController();
-
   final TextEditingController usernameController = TextEditingController();
-
   final TextEditingController emailcontroller = TextEditingController();
-
   final TextEditingController passwordcontroller = TextEditingController();
-
   final TextEditingController vechiletypecontroller = TextEditingController();
 
   // Future signUp() async {
@@ -39,8 +35,8 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
     });
   }
 
+  // ignore: annotate_overrides
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

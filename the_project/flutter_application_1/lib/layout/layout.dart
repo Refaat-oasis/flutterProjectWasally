@@ -11,18 +11,19 @@ import '../screens/setting.dart';
 class LayoutScreen extends StatefulWidget {
   static const String routeName = 'layout';
   final bool isDriver;
+  final String? username;
 
-  const LayoutScreen(this.isDriver, {super.key});
+  // LayoutScreen(this.isDriver, this.username, {super.key});
+  const LayoutScreen(this.isDriver, this.username, {Key? key})
+      : super(key: key);
 
   @override
-  State<LayoutScreen> createState() => _LayoutScreenState();
+  State<LayoutScreen> createState() => LayoutScreenState();
 }
 
-class _LayoutScreenState extends State<LayoutScreen> {
+class LayoutScreenState extends State<LayoutScreen> {
   int currentIndex = 0;
-
   List<BottomNavigationBarItem>? bottomsNavBar;
-
   List<Widget>? screens;
 
   @override
@@ -50,9 +51,14 @@ class _LayoutScreenState extends State<LayoutScreen> {
     ];
 
     screens = [
+      //   widget.isDriver ? DeliveryHome() : NewOrder(),
+      //   const ChatsScreen(username),
+      //   const SettingScreen(),
+      // ];
+
       widget.isDriver ? DeliveryHome() : NewOrder(),
-      const ChatsScreen(),
-      const SettingScreen(),
+      ChatsScreen(widget.username!), // Use widget.username here
+      SettingScreen(widget.username!),
     ];
   }
 

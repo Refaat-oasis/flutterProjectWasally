@@ -7,7 +7,7 @@ import '../screens/tracking_screen.dart';
 
 // ignore: must_be_immutable
 class NewOrder extends StatefulWidget {
-  NewOrder({super.key});
+  const NewOrder({super.key});
 
   @override
   State<NewOrder> createState() => _NewOrderState();
@@ -15,33 +15,19 @@ class NewOrder extends StatefulWidget {
 
 class _NewOrderState extends State<NewOrder> {
   final TextEditingController fromcity = TextEditingController();
-
   final TextEditingController fromstreet = TextEditingController();
-
   final TextEditingController fromhouse = TextEditingController();
-
   final TextEditingController fromflat = TextEditingController();
-
   final TextEditingController fromname = TextEditingController();
-
   final TextEditingController fromphone = TextEditingController();
-
   final TextEditingController fromaddress = TextEditingController();
-
   final TextEditingController tocity = TextEditingController();
-
   final TextEditingController tostreet = TextEditingController();
-
   final TextEditingController tohouse = TextEditingController();
-
   final TextEditingController toflat = TextEditingController();
-
   final TextEditingController toname = TextEditingController();
-
   final TextEditingController tophone = TextEditingController();
-
   final TextEditingController toaddress = TextEditingController();
-
   Future addneworder() async {
     try {
       await FirebaseFirestore.instance.collection('neworder').add({
@@ -63,8 +49,10 @@ class _NewOrderState extends State<NewOrder> {
         // ignore: equal_keys_in_map
         'toaddress': toaddress.text.trim(),
       });
+      // ignore: avoid_print
       print('Order added successfully!');
     } catch (e) {
+      // ignore: avoid_print
       print('Error adding order: $e');
     }
   }
@@ -377,7 +365,8 @@ class _NewOrderState extends State<NewOrder> {
                         decoration: InputDecoration(
                           labelText: 'City',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(23)),
+                            borderRadius: BorderRadius.circular(23),
+                          ),
                         ),
                       ),
                     ),
@@ -398,7 +387,8 @@ class _NewOrderState extends State<NewOrder> {
                         decoration: InputDecoration(
                           labelText: 'Street',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(23)),
+                            borderRadius: BorderRadius.circular(23),
+                          ),
                         ),
                       ),
                     ),

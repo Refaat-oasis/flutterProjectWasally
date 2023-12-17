@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, sized_box_for_whitespace, avoid_types_as_parameter_names, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, avoid_print, sized_box_for_whitespace, avoid_types_as_parameter_names, non_constant_identifier_names, unnecessary_string_interpolations
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String usernameID = "unknown";
   bool? isDriver;
+  // String? emailID;
 
   Future<void> _searchUser(
       BuildContext context, String email, String password) async {
@@ -36,6 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (driversearch.docs.isNotEmpty) {
         print('driver has been found');
+        usernameID = emailController.text;
+        print('$usernameID');
         // showDialog(
         //   context: context,
         //   builder: (BuildContext context) {
@@ -47,10 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
         //           onPressed: () {
         isDriver = true;
         Navigator.push(
-            context,
-            MaterialPageRoute
-                // (builder: (context) => const DeliveryHome()));
-                (builder: (context) => LayoutScreen(isDriver!)));
+          context,
+          MaterialPageRoute
+              // (builder: (context) => const DeliveryHome()));
+              (
+            builder: (context) => LayoutScreen(isDriver!, usernameID),
+          ),
+        );
         //           },
         //           child: Text('OK'),
         //         ),
@@ -60,9 +67,15 @@ class _LoginScreenState extends State<LoginScreen> {
         // );
       } else if (usersearch.docs.isNotEmpty) {
         print('user has been found');
+        usernameID = emailController.text;
+        print('$usernameID');
         isDriver = false;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => LayoutScreen(isDriver!)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LayoutScreen(isDriver!, usernameID),
+          ),
+        );
         //(builder: (context) => const DeliveryHome()));
         //
       } else {
@@ -112,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

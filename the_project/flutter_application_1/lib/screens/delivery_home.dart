@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, unused_import, unused_local_variable
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:project1/models/neworder.dart';
@@ -25,6 +25,7 @@ class DeliveryHome extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading");
         }
+
         // print(snapshot.data!.docs[0].data());
         // var firstDocumentData = snapshot.data!.docs[0].data();
 
@@ -32,31 +33,31 @@ class DeliveryHome extends StatelessWidget {
 
         // newOrder n1 = newOrder();
 
-        Map<String, dynamic>? firstDocumentData =
-            snapshot.data!.docs[0].data() as Map<String, dynamic>?;
+        // Map<String, dynamic>? firstDocumentData =
+        //     snapshot.data!.docs[0].data() as Map<String, dynamic>?;
 
-        if (firstDocumentData != null) {
-          // Access data from the first document
+        // if (firstDocumentData != null) {
+        //   // Access data from the first document
 
-          print(firstDocumentData);
+        //   print(firstDocumentData);
 
-          // Access a specific field (e.g., 'fromstreet')
+        //   // Access a specific field (e.g., 'fromstreet')
 
-          String startpoint = firstDocumentData['fromstreet'];
-          String endpoint = firstDocumentData['tostreet'];
-          String senderphone = firstDocumentData['fromphone'];
-          // newOrder n1 = newOrder(startpoint :startpoint,endpoint,senderphone);
+        //   String startpoint = firstDocumentData['fromstreet'];
+        //   String endpoint = firstDocumentData['tostreet'];
+        //   String senderphone = firstDocumentData['fromphone'];
+        //   // newOrder n1 = newOrder(startpoint :startpoint,endpoint,senderphone);
 
-          // You can also iterate through all documents if needed
+        //   // You can also iterate through all documents if needed
 
-          for (var document in snapshot.data!.docs) {
-            var documentData = document.data() as Map<String, dynamic>;
+        //   for (var document in snapshot.data!.docs) {
+        //     var documentData = document.data() as Map<String, dynamic>;
 
-            // Process each document data here
-          }
-        } else {
-          print("No data available");
-        }
+        //     // Process each document data here
+        //   }
+        // } else {
+        //   print("No data available");
+        // }
 
         return Scaffold(
           // appBar: AppBar(
