@@ -31,13 +31,13 @@ class _NewOrderState extends State<NewOrder> {
   Future addneworder() async {
     try {
       await FirebaseFirestore.instance.collection('neworder').add({
+
         'fromcity': fromcity.text.trim(),
         'fromstreet': fromstreet.text.trim(),
         'fromhouse': fromhouse.text.trim(),
         'fromflat': fromflat.text.trim(),
         'fromname': fromname.text.trim(),
         'fromphone': fromphone.text.trim(),
-
         'toaddress': fromaddress.text.trim(),
         'tocity': tocity.text.trim(),
         'tostreet': tostreet.text.trim(),

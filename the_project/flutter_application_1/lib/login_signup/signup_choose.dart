@@ -23,7 +23,7 @@ class SignUpChoose extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              "assets/images/img.png",
+              "assets/images/dilevery_logo.png",
               width: 300,
               height: 300,
             ),

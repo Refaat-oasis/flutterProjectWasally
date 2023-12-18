@@ -25,8 +25,6 @@ class ChatsDetailsScreen extends StatelessWidget {
       stream: messages.orderBy('createdAt', descending: true).snapshots(),
       // ignore: non_constant_identifier_names
       builder: (context, Snapshot) {
-        // print(Snapshot.data!['messages']);
-        // print(Snapshot.data!['message']);
         if (Snapshot.hasData) {
           isloading = false;
           List<Message> messageslist = [];
@@ -69,8 +67,7 @@ class ChatsDetailsScreen extends StatelessWidget {
                           return messageslist[index].id == username
                               ? buildMyMessage(message: messageslist[index])
                               : buildFriendMessage(
-                                  message: messageslist[
-                                      index]); // Change to buildMessage() if needed
+                                  message: messageslist[index]);
                         },
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 10,
@@ -174,10 +171,6 @@ class ChatsDetailsScreen extends StatelessWidget {
                         child: ListView.separated(
                           itemBuilder: (context, index) {
                             return null;
-                            // List<Message> messageslist = [];
-                            // return buildMyMessage(
-                            //     message: messageslist[
-                            //         index]); // Change to buildMessage() if needed
                           },
                           separatorBuilder: (context, index) => const SizedBox(
                             height: 10,

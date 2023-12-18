@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/login_screen.dart';
 import '../login_signup/login_screen.dart';
 
+Future<bool> isUsernameTaken(String username) async {
+  final QuerySnapshot query = await FirebaseFirestore.instance
+      .collection('users')
+      .where('username', isEqualTo: username)
+      .get();
+
+  return query
+      .docs.isNotEmpty; // If the query has results, the username exists.
+}
+
 class SignUpCustomer extends StatefulWidget {
   const SignUpCustomer({super.key});
 
@@ -26,13 +36,29 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
   //       email: emailcontroller.text, password: passwordcontroller.text);
   // }
 
-  Future adduserdetail() async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'username': usernameController.text.trim(),
-      'password': passwordcontroller.text.trim(),
-      'email': emailcontroller.text.trim(),
-      'phonenumber': phonenumbercontroller.text.trim(),
-    });
+  Future<void> adduserdetail() async {
+    final String username = usernameController.text.trim();
+    final bool isTaken = await isUsernameTaken(username);
+
+    if (isTaken) {
+      // Notify the user that the username is taken and prompt to choose another.
+      print('Username is already taken. Please choose another one.');
+    } else {
+      await FirebaseFirestore.instance.collection('users').add({
+        'username': username,
+        'password': passwordcontroller.text.trim(),
+        'email': emailcontroller.text.trim(),
+        'phonenumber': phonenumbercontroller.text.trim(),
+      });
+
+      // Continue with further sign-up process or navigation.
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
+    }
   }
 
   @override
@@ -99,8 +125,11 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user name';
+                      
+                            final RegExp usernameRegex =
+                                RegExp(r'^[a-zA-Z0-9_]{4,15}$');
+                            if (!usernameRegex.hasMatch(value!)) {
+                              return 'Invalid username';
                             } else {
                               return null;
                             }
@@ -117,8 +146,9 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                           controller: phonenumbercontroller,
                           keyboardType: TextInputType.phone,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user number';
+                            final RegExp phoneRegex = RegExp(r'^[0-9]{7,}$');
+                            if (!phoneRegex.hasMatch(value!)) {
+                              return 'Invalid phone number';
                             } else {
                               return null;
                             }
@@ -147,8 +177,10 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                         child: TextFormField(
                           controller: emailcontroller,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user address';
+                            final RegExp emailRegex =
+                                RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                            if (!emailRegex.hasMatch(value!)) {
+                              return 'Invalid email address';
                             } else {
                               return null;
                             }
@@ -177,8 +209,10 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                         child: TextFormField(
                           controller: passwordcontroller,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user password';
+                            final RegExp passwordRegex = RegExp(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                            if (!passwordRegex.hasMatch(value!)) {
+                              return 'Weak Password';
                             } else {
                               return null;
                             }
@@ -227,6 +261,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18)),
                           color: Colors.orange,
+                          /*
                           onPressed: () {
                             adduserdetail();
                             if (formKey.currentState!.validate()) {
@@ -236,6 +271,12 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                     // builder: (context) => SignUpChoose(),
                                     builder: (context) => const LoginScreen(),
                                   ));
+                            }
+                          },
+                          */
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              await adduserdetail();
                             }
                           },
                           child: const Text("Create Account",

@@ -20,19 +20,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   String usernameID = "unknown";
   bool? isDriver;
-  // String? emailID;
+
 
   Future<void> _searchUser(
       BuildContext context, String email, String password) async {
     try {
       QuerySnapshot driversearch = await FirebaseFirestore.instance
           .collection('drivers')
-          .where('username', isEqualTo: email)
+          .where('email', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
       QuerySnapshot usersearch = await FirebaseFirestore.instance
           .collection('users')
-          .where('username', isEqualTo: email)
+          .where('email', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
 

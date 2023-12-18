@@ -104,8 +104,10 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required username';
+                            final RegExp usernameRegex =
+                                RegExp(r'^[a-zA-Z0-9_]{4,30}$');
+                            if (!usernameRegex.hasMatch(value!)) {
+                              return 'Invalid username';
                             } else {
                               return null;
                             }
@@ -136,8 +138,9 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required phone number';
+                            final RegExp phoneRegex = RegExp(r'^[0-9]{7,}$');
+                            if (!phoneRegex.hasMatch(value!)) {
+                              return 'Invalid phone number';
                             } else {
                               return null;
                             }
@@ -168,8 +171,10 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required email address';
+                            final RegExp emailRegex =
+                                RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                            if (!emailRegex.hasMatch(value!)) {
+                              return 'Invalid email address';
                             } else {
                               return null;
                             }
@@ -199,13 +204,21 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                               borderRadius: BorderRadius.circular(28),
                             ),
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required vechile';
-                            } else {
-                              return null;
-                            }
-                          },
+                         validator: (value) {
+  if (value!.isEmpty) {
+    return 'Required vehicle type';
+  } else {
+    // List of allowed vehicle types
+    final allowedTypes = ['car', 'courier', 'truck'];
+    
+    // Check if the entered value is in the allowed types list
+    if (!allowedTypes.contains(value.toLowerCase())) {
+      return 'Invalid vehicle type';
+    } else {
+      return null;
+    }
+  }
+},
                         ),
                       ),
                       const SizedBox(
@@ -250,8 +263,10 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required password';
+                            final RegExp passwordRegex = RegExp(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                            if (!passwordRegex.hasMatch(value!)) {
+                              return 'Weak Password';
                             } else {
                               return null;
                             }
