@@ -1,19 +1,9 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/login_screen.dart';
 import '../login_signup/login_screen.dart';
-
-Future<bool> isUsernameTaken(String username) async {
-  final QuerySnapshot query = await FirebaseFirestore.instance
-      .collection('users')
-      .where('username', isEqualTo: username)
-      .get();
-
-  return query
-      .docs.isNotEmpty; // If the query has results, the username exists.
-}
 
 class SignUpCustomer extends StatefulWidget {
   const SignUpCustomer({super.key});
@@ -31,33 +21,56 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
 
-  // Future signUp() async {
-  //   await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  //       email: emailcontroller.text, password: passwordcontroller.text);
-  // }
+  Future<bool> isUsernameTaken(String email) async {
+    final QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (query.docs.isNotEmpty) {
+      print("email is already taken");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('signing up'),
+            content: const Text('email is already taken'),
+            actions: [
+              TextButton(
+                onPressed: () {},
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return true;
+    } else {
+      print("user is not taken");
+      await FirebaseFirestore.instance.collection('users').add({
+        'username': usernameController.text.trim(),
+        'password': passwordcontroller.text.trim(),
+        'email': email,
+        'phonenumber': phonenumbercontroller.text.trim(),
+      });
+      return false;
+    }
+  }
 
   Future<void> adduserdetail() async {
-    final String username = usernameController.text.trim();
-    final bool isTaken = await isUsernameTaken(username);
+    final String email = emailcontroller.text.trim();
+    final bool isTaken = await isUsernameTaken(email);
 
     if (isTaken) {
       // Notify the user that the username is taken and prompt to choose another.
       print('Username is already taken. Please choose another one.');
     } else {
       await FirebaseFirestore.instance.collection('users').add({
-        'username': username,
+        'username': usernameController.text.trim(),
         'password': passwordcontroller.text.trim(),
-        'email': emailcontroller.text.trim(),
+        'email': email,
         'phonenumber': phonenumbercontroller.text.trim(),
       });
-
-      // Continue with further sign-up process or navigation.
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
     }
   }
 
@@ -74,7 +87,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
           child: Column(
             children: [
               Image.asset(
-                "assets/images/img.png",
+                "assets/images/dilevery_logo.png",
                 width: 300,
                 height: 150,
               ),
@@ -125,7 +138,6 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                             ),
                           ),
                           validator: (value) {
-                      
                             final RegExp usernameRegex =
                                 RegExp(r'^[a-zA-Z0-9_]{4,15}$');
                             if (!usernameRegex.hasMatch(value!)) {

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, must_be_immutable
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +25,61 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
 
   // Future signUp() async {
 
+  Future<bool> isUsernameTaken(String email) async {
+    final QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('drivers')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (query.docs.isNotEmpty) {
+      print("email is already taken");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('signing up'),
+            content: const Text('email is already taken'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return true;
+    } else {
+      print("user is not taken");
+      await FirebaseFirestore.instance.collection('drivers').add({
+        'username': usernameController.text.trim(),
+        'password': passwordcontroller.text.trim(),
+        'email': email,
+        'phonenumber': phonenumbercontroller.text.trim(),
+        'vechiletype': vechiletypecontroller.text.trim(),
+      });
+      return false;
+    }
+  }
+
   Future adduserdetail() async {
-    await FirebaseFirestore.instance.collection('drivers').add({
-      'username': usernameController.text.trim(),
-      'password': passwordcontroller.text.trim(),
-      'email': emailcontroller.text.trim(),
-      'phonenumber': phonenumbercontroller.text.trim(),
-      'vechiletype': vechiletypecontroller.text.trim(),
-    });
+    final String email = emailcontroller.text.trim();
+    final bool isTaken = await isUsernameTaken(email);
+
+    if (isTaken) {
+      // Notify the user that the username is taken and prompt to choose another.
+      print('email is already taken. Please choose another one.');
+    } else {
+      await FirebaseFirestore.instance.collection('users').add({
+        'username': usernameController.text.trim(),
+        'password': passwordcontroller.text.trim(),
+        'email': email,
+        'phonenumber': phonenumbercontroller.text.trim(),
+        'vechiletype': vechiletypecontroller.text.trim(),
+      });
+    }
   }
 
   // ignore: annotate_overrides
@@ -55,7 +102,7 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/img.png",
+                  "assets/images/dilevery_logo.png",
                   width: 150,
                   height: 100,
                 ),
@@ -194,7 +241,8 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                                 borderSide:
                                     const BorderSide(color: Colors.orange),
                                 borderRadius: BorderRadius.circular(28)),
-                            labelText: " Vehicle Type",
+                            labelText: " Vehicle Type ",
+                            hintText: "car , courier , truck",
                             labelStyle: const TextStyle(color: Colors.black),
                             prefixIcon: const Icon(
                               Icons.directions_car_rounded,
@@ -204,21 +252,21 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                               borderRadius: BorderRadius.circular(28),
                             ),
                           ),
-                         validator: (value) {
-  if (value!.isEmpty) {
-    return 'Required vehicle type';
-  } else {
-    // List of allowed vehicle types
-    final allowedTypes = ['car', 'courier', 'truck'];
-    
-    // Check if the entered value is in the allowed types list
-    if (!allowedTypes.contains(value.toLowerCase())) {
-      return 'Invalid vehicle type';
-    } else {
-      return null;
-    }
-  }
-},
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Required vehicle type';
+                            } else {
+                              // List of allowed vehicle types
+                              final allowedTypes = ['car', 'courier', 'truck'];
+
+                              // Check if the entered value is in the allowed types list
+                              if (!allowedTypes.contains(value.toLowerCase())) {
+                                return 'Invalid vehicle type';
+                              } else {
+                                return null;
+                              }
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -283,9 +331,10 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18)),
                           color: Colors.orange,
-                          onPressed: () {
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              adduserdetail();
+                              await adduserdetail();
+                              // adduserdetail();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

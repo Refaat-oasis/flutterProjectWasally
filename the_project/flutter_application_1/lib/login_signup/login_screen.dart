@@ -18,9 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String usernameID = "unknown";
+  String usermailID = "unknown";
   bool? isDriver;
-
 
   Future<void> _searchUser(
       BuildContext context, String email, String password) async {
@@ -38,46 +37,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (driversearch.docs.isNotEmpty) {
         print('driver has been found');
-        usernameID = emailController.text;
-        print('$usernameID');
-        // showDialog(
-        //   context: context,
-        //   builder: (BuildContext context) {
-        //     return AlertDialog(
-        //       title: Text('Logging In'),
-        //       content: Text('You have logged in successfully'),
-        //       actions: [
-        //         TextButton(
-        //           onPressed: () {
+        usermailID = emailController.text;
+        print('$usermailID');
         isDriver = true;
         Navigator.push(
           context,
-          MaterialPageRoute
-              // (builder: (context) => const DeliveryHome()));
-              (
-            builder: (context) => LayoutScreen(isDriver!, usernameID),
+          MaterialPageRoute(
+            builder: (context) => LayoutScreen(isDriver!, usermailID),
           ),
         );
-        //           },
-        //           child: Text('OK'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
       } else if (usersearch.docs.isNotEmpty) {
         print('user has been found');
-        usernameID = emailController.text;
-        print('$usernameID');
+        usermailID = emailController.text;
+        print('$usermailID');
         isDriver = false;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LayoutScreen(isDriver!, usernameID),
+            builder: (context) => LayoutScreen(isDriver!, usermailID),
           ),
         );
-        //(builder: (context) => const DeliveryHome()));
-        //
       } else {
         print('email or password is incorrect');
         showDialog(

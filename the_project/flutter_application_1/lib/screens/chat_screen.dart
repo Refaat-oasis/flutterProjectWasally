@@ -4,8 +4,8 @@ import 'chats_detiels_screen.dart';
 
 // ignore: must_be_immutable
 class ChatsScreen extends StatelessWidget {
-  String? username;
-  ChatsScreen(this.username, {super.key});
+  String? usermailID;
+  ChatsScreen(this.usermailID, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ChatsScreen extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatsDetailsScreen(username),
+                builder: (context) => ChatsDetailsScreen(usermailID),
               ));
         },
         child: const Padding(

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/signup_choose.dart';
 import '../login_signup/signup_choose.dart';
@@ -7,11 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 WriteBatch batch = FirebaseFirestore.instance.batch();
 
-
 // ignore: must_be_immutable
 class SettingScreen extends StatefulWidget {
-  String? username;
-  SettingScreen(this.username, {super.key});
+  String? usermailID;
+  SettingScreen(this.usermailID, {super.key});
 
   @override
   State<SettingScreen> createState() => _SignUpCustomerState();
@@ -20,23 +19,24 @@ class SettingScreen extends StatefulWidget {
 class _SignUpCustomerState extends State<SettingScreen> {
   bool isUsernameValid = false; // Track if the username exists
   var formKey = GlobalKey<FormState>();
-  TextEditingController usernameController = TextEditingController();
-TextEditingController phonenumbercontroller = TextEditingController();
-TextEditingController emailcontroller = TextEditingController();
-TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController usernameeditController = TextEditingController();
+  TextEditingController phonenumbereditcontroller = TextEditingController();
+  TextEditingController emaileditcontroller = TextEditingController();
+  TextEditingController passwordeditcontroller = TextEditingController();
   bool isVisible = true;
-Future<bool> checkUsernameExistence(String username) async {
-  final QuerySnapshot querySnapshot = await _firestore
-      .collection('users')
-      .where('username', isEqualTo: username)
-      .get();
-  return querySnapshot.docs.isNotEmpty;
-}
+  Future<bool> checkUsernameExistence(String username) async {
+    final QuerySnapshot querySnapshot = await _firestore
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .get();
+    return querySnapshot.docs.isNotEmpty;
+  }
 
-bool isValidUsername(String username) {
-  final RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9_]{4,15}$');
-  return usernameRegex.hasMatch(username);
-}
+  bool isValidUsername(String email) {
+    final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,56 +240,67 @@ bool isValidUsername(String username) {
                               borderRadius: BorderRadius.circular(18)),
                           color: Colors.orange,
                           onPressed: () async {
-  if (formKey.currentState!.validate()) {
-    final String username = usernameController.text;
-    final bool isUsernameValidFormat = isValidUsername(username);
+                            if (formKey.currentState!.validate()) {
+                              final String email = emaileditcontroller.text;
+                              final bool isUsernameValidFormat =
+                                  isValidUsername(email);
 
-    if (!isUsernameValidFormat) {
-      setState(() {
-        // Set an error for the username field
-        // This will trigger the error message for an invalid username format
-        usernameController.clear(); // Clear the text field
-      });
-      return; // Prevent further execution if username format is invalid
-    }
+                              if (!isUsernameValidFormat) {
+                                setState(() {
+                                  // Set an error for the username field
+                                  // This will trigger the error message for an invalid username format
+                                  usernameeditController
+                                      .clear(); // Clear the text field
+                                });
+                                return; // Prevent further execution if username format is invalid
+                              }
 
-    final bool isUsernameValid = await checkUsernameExistence(username);
+                              final bool isUsernameValid =
+                                  await checkUsernameExistence(email);
 
-    if (isUsernameValid) {
-      // Perform updates for the existing username
-      // Example: Update the user's phone number and email
-      batch.update(
-  _firestore.collection('users').doc(usernameController.text),
-  {
-    'phoneNumber': phonenumbercontroller.text,
-    'email': emailcontroller.text,
-    // Other fields to update
-  },
-);
+                              if (isUsernameValid) {
+                                // Perform updates for the existing username
+                                // Example: Update the user's phone number and email
+                                batch.update(
+                                  _firestore
+                                      .collection('users')
+                                      .doc(usernameeditController.text),
+                                  {
+                                    'phoneNumber':
+                                        phonenumbereditcontroller.text,
+                                    'email': emaileditcontroller.text,
+                                    // Other fields to update
+                                  },
+                                );
 
 // Commit the batch
-await batch.commit();
+                                await batch.commit();
 
-      await _firestore.collection('users').doc(username).update({
-        'phoneNumber': phonenumbercontroller.text,
-        'email': emailcontroller.text,
-        'password':passwordcontroller.text,
-        // Add other fields that you want to update
-      });
-      // Proceed with navigation or any other action after update
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignUpChoose()),
-      );
-    } else {
-      setState(() {
-        // Set an error for the username field
-        // This will trigger the error message for a non-existing username
-        usernameController.clear(); // Clear the text field
-      });
-    }
-  }
-},
+                                await _firestore
+                                    .collection('users')
+                                    .doc()
+                                    .update({
+                                  'phoneNumber': phonenumbereditcontroller.text,
+                                  'email': emaileditcontroller.text,
+                                  'password': passwordeditcontroller.text,
+                                  // Add other fields that you want to update
+                                });
+                                // Proceed with navigation or any other action after update
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignUpChoose()),
+                                );
+                              } else {
+                                setState(() {
+                                  // Set an error for the username field
+                                  // This will trigger the error message for a non-existing username
+                                  usernameeditController
+                                      .clear(); // Clear the text field
+                                });
+                              }
+                            }
+                          },
                           /*
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
