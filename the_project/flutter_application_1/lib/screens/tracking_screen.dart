@@ -1,9 +1,12 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable, unused_import
 
 import 'package:flutter/material.dart';
+import '../models/neworder.dart';
 
 class TrackingScreen extends StatelessWidget {
-  const TrackingScreen({super.key});
+  TrackingScreen({required this.neworder, super.key});
+
+  final Neworder neworder;
 
   @override
   Widget build(BuildContext context) {
@@ -116,15 +119,15 @@ class TrackingScreen extends StatelessWidget {
                       SizedBox(
                         height: 3,
                       ),
-                      Text('Benziena Mobile ', style: TextStyle(fontSize: 25)),
+                      Text(neworder.fromstreet, style: TextStyle(fontSize: 25)),
                       SizedBox(
                         height: 3,
                       ),
-                      Text('Bus Station ', style: TextStyle(fontSize: 25)),
+                      Text(neworder.tostreet, style: TextStyle(fontSize: 25)),
                       SizedBox(
                         height: 3,
                       ),
-                      Text('0123456789',
+                      Text(neworder.fromphone,
                           style: TextStyle(
                             fontSize: 25,
                           )),

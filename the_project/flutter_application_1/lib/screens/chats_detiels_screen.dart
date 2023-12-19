@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names
 
 // ignore: unused_import
 import 'dart:convert';
@@ -23,7 +23,7 @@ class ChatsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy('createdAt', descending: true).snapshots(),
-      // ignore: non_constant_identifier_names
+
       builder: (context, Snapshot) {
         if (Snapshot.hasData) {
           isloading = false;
@@ -148,7 +148,7 @@ class ChatsDetailsScreen extends StatelessWidget {
                     CircleAvatar(
                       radius: 22.0,
                       backgroundImage: AssetImage(
-                        'assets/images/dilevery_logo.png', // Replace with the actual URL
+                        'assets/images/dilevery_logo.png',
                       ),
                     ),
                     SizedBox(
@@ -294,7 +294,7 @@ class ChatsDetailsScreen extends StatelessWidget {
             horizontal: 10.0,
           ),
           child: Text(
-            message.message, // Fixed typo: 'model}' to 'model'
+            message.message, 
           ),
         ),
       );

@@ -56,7 +56,7 @@ class LayoutScreenState extends State<LayoutScreen> {
       //   const SettingScreen(),
       // ];
 
-      widget.isDriver ? DeliveryHome() : NewOrder(),
+      widget.isDriver ? DeliveryHome() : const NewOrderScreen(),
       ChatsScreen(widget.usermailID!), // Use widget.username here
       SettingScreen(widget.usermailID!),
     ];

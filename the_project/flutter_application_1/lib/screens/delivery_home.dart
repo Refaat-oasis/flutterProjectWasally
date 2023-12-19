@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, unused_import, unused_local_variable, must_be_immutable, duplicate_ignore
+// ignore_for_file: sized_box_for_whitespace, unused_import, unused_local_variable, must_be_immutable, duplicate_ignore, camel_case_types
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -9,10 +9,8 @@ import '../models/neworder.dart';
 
 class DeliveryHome extends StatelessWidget {
   DeliveryHome({super.key});
-
   CollectionReference neworder =
       FirebaseFirestore.instance.collection('neworder');
-
   bool isloading = true;
 
   @override
@@ -23,7 +21,7 @@ class DeliveryHome extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ModalProgressHUD(
             inAsyncCall: isloading,
-            child: Scaffold(),
+            child: const Scaffold(),
           );
         } else {
           List<Neworder> neworderlist = [];
@@ -59,7 +57,7 @@ class DeliveryHome extends StatelessWidget {
   }
 }
 
-// ignore: camel_case_types
+
 class deliveryorders extends StatelessWidget {
   deliveryorders({required this.neworder, super.key});
 
@@ -192,7 +190,9 @@ class deliveryorders extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const TrackingScreen(),
+                                builder: (context) => TrackingScreen(
+                                  neworder: neworder,
+                                ),
                               ),
                             );
                           }

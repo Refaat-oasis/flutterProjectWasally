@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/signupcustomer_screen.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../login_signup/signupcustomer_screen.dart';
 import '../login_signup/signupdilevery.dart';
 
-// ignore: must_be_immutable
+
 class SignUpChoose extends StatelessWidget {
   SignUpChoose({super.key});
   bool? isDriver;

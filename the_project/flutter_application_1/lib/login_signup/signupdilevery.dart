@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, must_be_immutable, use_build_context_synchronously
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable, use_build_context_synchronously, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -338,7 +338,7 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
+                                    builder: (context) => const LoginScreen(),
                                   ));
                             }
                           },

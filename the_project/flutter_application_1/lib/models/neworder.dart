@@ -4,6 +4,7 @@ class Neworder {
   final String fromphone;
 
   Neworder(this.fromstreet, this.tostreet, this.fromphone);
+  
 
   factory Neworder.fromJson(jsonData) {
     return Neworder(

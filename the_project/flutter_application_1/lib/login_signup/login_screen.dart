@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../layout/layout.dart';
 import '../login_signup/signup_choose.dart';
 
-// ignore: must_be_immutable
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 

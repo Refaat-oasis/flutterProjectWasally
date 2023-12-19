@@ -1,19 +1,22 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print
+
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:project1/screens/tracking_screen.dart';
+import '../models/neworder.dart';
 import '../screens/tracking_screen.dart';
 
 // ignore: must_be_immutable
-class NewOrder extends StatefulWidget {
-  const NewOrder({super.key});
+class NewOrderScreen extends StatefulWidget {
+  const NewOrderScreen({super.key});
 
   @override
-  State<NewOrder> createState() => _NewOrderState();
+  State<NewOrderScreen> createState() => _NewOrderState();
 }
 
-class _NewOrderState extends State<NewOrder> {
+class _NewOrderState extends State<NewOrderScreen> {
   final TextEditingController fromcity = TextEditingController();
   final TextEditingController fromstreet = TextEditingController();
   final TextEditingController fromhouse = TextEditingController();
@@ -31,7 +34,6 @@ class _NewOrderState extends State<NewOrder> {
   Future addneworder() async {
     try {
       await FirebaseFirestore.instance.collection('neworder').add({
-
         'fromcity': fromcity.text.trim(),
         'fromstreet': fromstreet.text.trim(),
         'fromhouse': fromhouse.text.trim(),
@@ -45,16 +47,20 @@ class _NewOrderState extends State<NewOrder> {
         'toflat': toflat.text.trim(),
         'toname': toname.text.trim(),
         'tophone': tophone.text.trim(),
-
-        // ignore: equal_keys_in_map
         'toaddress': toaddress.text.trim(),
       });
-      // ignore: avoid_print
       print('Order added successfully!');
     } catch (e) {
-      // ignore: avoid_print
       print('Error adding order: $e');
     }
+  }
+
+  Neworder sendorder() {
+    String startpos = fromstreet.text.trim();
+    String endpos = tostreet.text.trim();
+    String startphone = fromphone.text.trim();
+    Neworder neworder = Neworder(startpos, endpos, startphone);
+    return neworder;
   }
 
   var formKey = GlobalKey<FormState>();
@@ -509,7 +515,7 @@ class _NewOrderState extends State<NewOrder> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const TrackingScreen(),
+                                        TrackingScreen(neworder: sendorder()),
                                   ));
                             }
                           },
