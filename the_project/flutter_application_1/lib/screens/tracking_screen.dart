@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../models/neworder.dart';
 
 class TrackingScreen extends StatelessWidget {
-  TrackingScreen({required this.neworder, super.key});
+  const TrackingScreen({required this.neworder, super.key});
 
   final Neworder neworder;
 
@@ -62,13 +62,13 @@ class TrackingScreen extends StatelessWidget {
                 Container(
                   width: 300,
                   height: 700,
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
-                      Row(children: [
+                      const Row(children: [
                         Text('Mohammed saleh', style: TextStyle(fontSize: 20)),
                         Spacer(),
                         Text('01265478201',
@@ -76,11 +76,11 @@ class TrackingScreen extends StatelessWidget {
                               fontSize: 20,
                             )),
                       ]),
-                      Divider(
+                      const Divider(
                           color: Colors.orangeAccent,
                           thickness: 3,
                           endIndent: 25),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Row(
@@ -116,26 +116,26 @@ class TrackingScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
-                      Text(neworder.fromstreet, style: TextStyle(fontSize: 25)),
-                      SizedBox(
+                      Text(neworder.fromstreet, style: const TextStyle(fontSize: 25)),
+                      const SizedBox(
                         height: 3,
                       ),
-                      Text(neworder.tostreet, style: TextStyle(fontSize: 25)),
-                      SizedBox(
+                      Text(neworder.tostreet, style: const TextStyle(fontSize: 25)),
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(neworder.fromphone,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 25,
                           )),
-                      Divider(
+                      const Divider(
                           color: Colors.orangeAccent,
                           thickness: 3,
                           endIndent: 25),
-                      Row(children: [
+                      const Row(children: [
                         Text('20\$', style: TextStyle(fontSize: 25)),
                         Spacer(),
                         Text('Waiting...',

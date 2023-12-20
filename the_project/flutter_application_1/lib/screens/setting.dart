@@ -1,5 +1,7 @@
-// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously, unused_import
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:project1/models/user_mode.dart';
 // import 'package:project1/login_signup/signup_choose.dart';
 import '../login_signup/signup_choose.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -330,3 +332,7 @@ class _SignUpCustomerState extends State<SettingScreen> {
     );
   }
 }
+
+// Future<void> updateUser(user_model user) async {
+//   await _firestore.collection('users').doc(user.id).update(user.toJson());
+// }

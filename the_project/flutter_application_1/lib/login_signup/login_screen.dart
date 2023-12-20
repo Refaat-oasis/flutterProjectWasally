@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, sized_box_for_whitespace, avoid_types_as_parameter_names, non_constant_identifier_names, unnecessary_string_interpolations
+// ignore_for_file: use_build_context_synchronously, avoid_print, sized_box_for_whitespace, avoid_types_as_parameter_names, non_constant_identifier_names, unnecessary_string_interpolations, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 // import 'package:project1/login_signup/signup_choose.dart';
 import '../layout/layout.dart';
 import '../login_signup/signup_choose.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .where('email', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
+
       QuerySnapshot usersearch = await FirebaseFirestore.instance
           .collection('users')
           .where('email', isEqualTo: email)
