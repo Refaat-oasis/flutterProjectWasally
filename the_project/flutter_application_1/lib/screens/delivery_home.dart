@@ -57,7 +57,6 @@ class DeliveryHome extends StatelessWidget {
   }
 }
 
-
 class deliveryorders extends StatelessWidget {
   deliveryorders({required this.neworder, super.key});
 

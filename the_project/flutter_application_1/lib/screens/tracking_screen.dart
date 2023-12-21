@@ -119,11 +119,13 @@ class TrackingScreen extends StatelessWidget {
                       const SizedBox(
                         height: 3,
                       ),
-                      Text(neworder.fromstreet, style: const TextStyle(fontSize: 25)),
+                      Text(neworder.fromstreet,
+                          style: const TextStyle(fontSize: 25)),
                       const SizedBox(
                         height: 3,
                       ),
-                      Text(neworder.tostreet, style: const TextStyle(fontSize: 25)),
+                      Text(neworder.tostreet,
+                          style: const TextStyle(fontSize: 25)),
                       const SizedBox(
                         height: 3,
                       ),

@@ -53,13 +53,13 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
       return true;
     } else {
       print("user is not taken");
-      await FirebaseFirestore.instance.collection('drivers').add({
-        'username': usernameController.text.trim(),
-        'password': passwordcontroller.text.trim(),
-        'email': email,
-        'phonenumber': phonenumbercontroller.text.trim(),
-        'vechiletype': vechiletypecontroller.text.trim(),
-      });
+      // await FirebaseFirestore.instance.collection('drivers').add({
+      //   'username': usernameController.text.trim(),
+      //   'password': passwordcontroller.text.trim(),
+      //   'email': email,
+      //   'phonenumber': phonenumbercontroller.text.trim(),
+      //   'vechiletype': vechiletypecontroller.text.trim(),
+      // });
       return false;
     }
   }

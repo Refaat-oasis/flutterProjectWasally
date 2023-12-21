@@ -20,6 +20,29 @@ class _LoginScreenState extends State<LoginScreen> {
   String usermailID = "unknown";
   bool? isDriver;
 
+    //  FutureBuilder<DocumentSnapshot>(){
+    //   future: users.doc(documentId).get();
+    //   builder:
+    //       (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    //     if (snapshot.hasError) {
+    //       return Text("Something went wrong");
+    //     }
+
+    //     if (snapshot.hasData && !snapshot.data!.exists) {
+    //       return Text("Document does not exist");
+    //     }
+
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    //       Map<String, dynamic> data =
+    //           snapshot.data!.data() as Map<String, dynamic>;
+    //       return Text("Hello, ${data['userName']}");
+    //     }
+
+    //     return Text("loading");
+    //   }
+    //  }
+
+
   Future<void> _searchUser(
       BuildContext context, String email, String password) async {
     try {
@@ -34,6 +57,21 @@ class _LoginScreenState extends State<LoginScreen> {
           .where('email', isEqualTo: email)
           .where('password', isEqualTo: password)
           .get();
+
+      // documentsLoopFromFirestore() {
+      //   FirebaseFirestore.instance
+      //       .collection('drivers')
+      //       .get()
+      //       .then((idkWhatGoesHereButICantRemoveIt) {
+      //     idkWhatGoesHereButICantRemoveIt.docs.forEach((result) {
+      //       print(result.data());
+      //     });
+      //   });
+      // }
+
+      
+
+
 
       if (driversearch.docs.isNotEmpty) {
         print('driver has been found');
