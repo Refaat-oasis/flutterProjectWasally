@@ -46,13 +46,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
       );
       return true;
     } else {
-      // print("user is not taken");
-      // await FirebaseFirestore.instance.collection('users').add({
-      //   'username': usernameController.text.trim(),
-      //   'password': passwordcontroller.text.trim(),
-      //   'email': email,
-      //   'phonenumber': phonenumbercontroller.text.trim(),
-      // });
+
       return false;
     }
   }

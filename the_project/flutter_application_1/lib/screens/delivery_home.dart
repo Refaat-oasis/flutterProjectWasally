@@ -2,17 +2,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-// import 'package:project1/models/neworder.dart';
-// import 'package:project1/screens/tracking_screen.dart';
 import '../screens/tracking_screen.dart';
 import '../models/neworder.dart';
 
 class DeliveryHome extends StatelessWidget {
-  DeliveryHome({super.key});
+  DeliveryHome({required this.usermailID, super.key});
+
   CollectionReference neworder =
       FirebaseFirestore.instance.collection('neworder');
   bool isloading = true;
-
+  final String usermailID;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -40,8 +39,10 @@ class DeliveryHome extends StatelessWidget {
                     child: ListView.separated(
                       itemCount: neworderlist.length,
                       physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) =>
-                          deliveryorders(neworder: neworderlist[index]),
+                      itemBuilder: (context, index) => deliveryorders(
+                        usermailID: usermailID,
+                        neworder: neworderlist[index],
+                      ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 15,
                       ),
@@ -58,10 +59,10 @@ class DeliveryHome extends StatelessWidget {
 }
 
 class deliveryorders extends StatelessWidget {
-  deliveryorders({required this.neworder, super.key});
+  deliveryorders({required this.usermailID, required this.neworder, super.key});
 
   Neworder neworder;
-
+  final String usermailID;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -185,12 +186,15 @@ class deliveryorders extends StatelessWidget {
                             borderRadius: BorderRadius.circular(18)),
                         color: Colors.orange,
                         onPressed: () {
+                          const bool isaccepted = true;
                           {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => TrackingScreen(
                                   neworder: neworder,
+                                  isaccepted: isaccepted,
+                                  usermailID: usermailID,
                                 ),
                               ),
                             );

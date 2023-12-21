@@ -10,7 +10,8 @@ import '../screens/tracking_screen.dart';
 
 // ignore: must_be_immutable
 class NewOrderScreen extends StatefulWidget {
-  const NewOrderScreen({super.key});
+  NewOrderScreen(this.usermailID, {super.key});
+  String? usermailID;
 
   @override
   State<NewOrderScreen> createState() => _NewOrderState();
@@ -510,12 +511,16 @@ class _NewOrderState extends State<NewOrderScreen> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               addneworder();
+                              const bool isaccepted = false;
 
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        TrackingScreen(neworder: sendorder()),
+                                    builder: (context) => TrackingScreen(
+                                      neworder: sendorder(),
+                                      isaccepted: isaccepted,
+                                      usermailID: "",
+                                    ),
                                   ));
                             }
                           },

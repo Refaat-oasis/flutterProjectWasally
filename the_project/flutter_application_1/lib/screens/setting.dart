@@ -102,22 +102,25 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         width: 300,
                         height: 60,
                         child: TextFormField(
+                          controller: emaileditcontroller,
                           decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.orange),
-                                  borderRadius: BorderRadius.circular(28)),
-                              labelText: " Username",
-                              labelStyle: const TextStyle(color: Colors.black),
-                              prefixIcon: const Icon(
-                                Icons.account_circle_outlined,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(28))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.orange),
+                                borderRadius: BorderRadius.circular(28)),
+                            labelText: " Username",
+                            labelStyle: const TextStyle(color: Colors.black),
+                            prefixIcon: const Icon(
+                              Icons.account_circle_outlined,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'required user name';
+                              return 'required username';
                             } else {
                               return null;
                             }
@@ -131,10 +134,11 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         width: 300,
                         height: 60,
                         child: TextFormField(
+                          controller: phonenumbereditcontroller,
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'required user number';
+                              return 'required number';
                             } else {
                               return null;
                             }
@@ -161,26 +165,22 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         width: 300,
                         height: 60,
                         child: TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user address';
-                            } else {
-                              return null;
-                            }
-                          },
+                          controller: emaileditcontroller,
                           decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.orange),
-                                  borderRadius: BorderRadius.circular(28)),
-                              labelText: "Email address",
-                              labelStyle: const TextStyle(color: Colors.black),
-                              prefixIcon: const Icon(
-                                Icons.email,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(28))),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.orange),
+                                borderRadius: BorderRadius.circular(28)),
+                            labelText: "Email address",
+                            labelStyle: const TextStyle(color: Colors.black),
+                            prefixIcon: const Icon(
+                              Icons.email,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -190,6 +190,7 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         width: 300,
                         height: 58,
                         child: TextFormField(
+                          controller: passwordeditcontroller,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'required user password';
