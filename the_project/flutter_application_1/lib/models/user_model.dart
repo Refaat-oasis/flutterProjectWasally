@@ -31,4 +31,13 @@ class user_model {
         password: data['password'],
         phonenumber: data['phonenumber']);
   }
+
+  factory user_model.fromMap(Map<String, dynamic> map, String id) {
+    return user_model(
+        id: id,
+        email: map['email'],
+        username: map['username'],
+        password: map['password'],
+        phonenumber: map['phonenumber']);
+  }
 }
