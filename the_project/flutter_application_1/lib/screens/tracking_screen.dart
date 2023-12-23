@@ -184,6 +184,22 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   color: Colors.orange,
                                 ),
                               ),
+                              const Spacer(),
+                              MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18)),
+                                color: Colors.orange,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "deliverd",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22),
+                                ),
+                              ),
                             ])
                           ],
                         ),
@@ -191,16 +207,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
                     ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Center(
-              child: Column(
-                children: [Text("done"), Icon(Icons.delete_forever)],
               ),
             ),
           ),

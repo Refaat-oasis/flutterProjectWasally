@@ -522,11 +522,13 @@ class _NewOrderState extends State<NewOrderScreen> {
                                   ));
                             }
                           },
-                          child: const Text("Create Order",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22),),
+                          child: const Text(
+                            "Create Order",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
                         ),
                       ),
                     ),
