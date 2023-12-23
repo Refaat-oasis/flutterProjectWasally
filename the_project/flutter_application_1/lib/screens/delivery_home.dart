@@ -192,6 +192,7 @@ class deliveryorders extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => TrackingScreen(
+                                  isDriver: true,
                                   neworder: neworder,
                                   isaccepted: isaccepted,
                                   usermailID: usermailID,

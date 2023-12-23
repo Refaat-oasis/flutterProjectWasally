@@ -6,16 +6,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:project1/models/message.dart';
+import 'package:project1/components/constant.dart';
+import '../models/message.dart';
 
 // ignore: must_be_immutable
 class ChatsDetailsScreen extends StatelessWidget {
-  String? username;
-  ChatsDetailsScreen(this.username, {super.key});
+  ChatsDetailsScreen({super.key});
 
   final scrolcontrol = ScrollController();
   var messageController = TextEditingController();
-  TextEditingController edittedxt = TextEditingController();
   CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
   bool isloading = true;
@@ -23,7 +22,6 @@ class ChatsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy('createdAt', descending: true).snapshots(),
-
       builder: (context, Snapshot) {
         if (Snapshot.hasData) {
           isloading = false;
@@ -39,7 +37,7 @@ class ChatsDetailsScreen extends StatelessWidget {
                   CircleAvatar(
                     radius: 22.0,
                     backgroundImage: AssetImage(
-                      'assets/images/dilevery_logo.png', // Replace with the actual URL
+                      'assets/images/dilevery_logo.png',
                     ),
                   ),
                   SizedBox(
@@ -64,7 +62,7 @@ class ChatsDetailsScreen extends StatelessWidget {
                         controller: scrolcontrol,
                         itemCount: messageslist.length,
                         itemBuilder: (context, index) {
-                          return messageslist[index].id == username
+                          return messageslist[index].id == userModel.username
                               ? buildMyMessage(message: messageslist[index])
                               : buildFriendMessage(
                                   message: messageslist[index]);
@@ -107,11 +105,10 @@ class ChatsDetailsScreen extends StatelessWidget {
                             child: MaterialButton(
                               color: Colors.blue,
                               onPressed: () {
-                                // Handle send button click
                                 messages.add({
                                   'message': messageController.text,
                                   'createdAt': DateTime.now(),
-                                  'ID': username,
+                                  'ID': userModel.username,
                                 });
                                 messageController.clear();
                                 scrolcontrol.animateTo(0,
@@ -210,7 +207,6 @@ class ChatsDetailsScreen extends StatelessWidget {
                               child: MaterialButton(
                                 color: Colors.blue,
                                 onPressed: () {
-                                  // Handle send button click
                                   messages.add({
                                     'message': messageController.text,
                                   });
@@ -265,7 +261,7 @@ class ChatsDetailsScreen extends StatelessWidget {
             horizontal: 10.0,
           ),
           child: Text(
-            message.message, // Fixed typo: 'model}' to 'model'
+            message.message,
           ),
         ),
       );
@@ -294,7 +290,7 @@ class ChatsDetailsScreen extends StatelessWidget {
             horizontal: 10.0,
           ),
           child: Text(
-            message.message, 
+            message.message,
           ),
         ),
       );

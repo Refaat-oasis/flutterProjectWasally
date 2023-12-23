@@ -1,14 +1,11 @@
-// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print
+// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable
 
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-// import 'package:project1/screens/tracking_screen.dart';
 import '../models/neworder.dart';
 import '../screens/tracking_screen.dart';
 
-// ignore: must_be_immutable
 class NewOrderScreen extends StatefulWidget {
   NewOrderScreen(this.usermailID, {super.key});
   String? usermailID;
@@ -517,6 +514,7 @@ class _NewOrderState extends State<NewOrderScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => TrackingScreen(
+                                      isDriver: false,
                                       neworder: sendorder(),
                                       isaccepted: isaccepted,
                                       usermailID: "",
@@ -528,7 +526,7 @@ class _NewOrderState extends State<NewOrderScreen> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 22)),
+                                  fontSize: 22),),
                         ),
                       ),
                     ),

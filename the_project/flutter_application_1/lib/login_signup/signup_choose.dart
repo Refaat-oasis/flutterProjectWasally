@@ -1,11 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
-// import 'package:project1/login_signup/signupcustomer_screen.dart';
-// import 'package:project1/login_signup/signupdilevery.dart';
 import '../login_signup/signupcustomer_screen.dart';
 import '../login_signup/signupdilevery.dart';
-
 
 class SignUpChoose extends StatelessWidget {
   SignUpChoose({super.key});
@@ -88,7 +85,7 @@ class SignUpChoose extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             // builder: (context) => LayoutScreen(isDriver!),
-                            builder: ((context) => SignUpDilevery()),
+                            builder: ((context) => const SignUpDilevery()),
                           ),
                         );
                       },

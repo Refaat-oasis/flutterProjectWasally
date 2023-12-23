@@ -2,19 +2,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-// import 'package:project1/login_signup/login_screen.dart';
 import '../login_signup/login_screen.dart';
 
 class SignUpCustomer extends StatefulWidget {
   const SignUpCustomer({super.key});
-
   @override
   State<SignUpCustomer> createState() => _SignUpCustomerState();
 }
 
 class _SignUpCustomerState extends State<SignUpCustomer> {
   var formKey = GlobalKey<FormState>();
-
   bool isVisible = true;
   final TextEditingController phonenumbercontroller = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -56,8 +53,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
     final bool isTaken = await isUsernameTaken(email);
 
     if (isTaken) {
-      // Notify the user that the username is taken and prompt to choose another.
-      print('Username is already taken. Please choose another one.');
+       print('Username is already taken. Please choose another one.');
     } else {
       await FirebaseFirestore.instance.collection('users').add({
         'username': usernameController.text.trim(),
@@ -267,19 +263,6 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18)),
                           color: Colors.orange,
-                          /*
-                          onPressed: () {
-                            adduserdetail();
-                            if (formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    // builder: (context) => SignUpChoose(),
-                                    builder: (context) => const LoginScreen(),
-                                  ));
-                            }
-                          },
-                          */
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               await adduserdetail();

@@ -2,9 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project1/models/user_model.dart';
-// import 'package:project1/layout/layout.dart';
-// import 'package:project1/login_signup/signup_choose.dart';
+import '../models/user_model.dart';
 import '../components/constant.dart';
 import '../layout/layout.dart';
 import '../login_signup/signup_choose.dart';
@@ -40,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (driversearch.docs.isNotEmpty) {
         print('sadaoidsadsinaidijsadssioadjad ${driversearch.docs.first.id}');
         String id = driversearch.docs.first.id;
-        userModel = user_model.fromMap(
+        userModel = User.fromMap(
             driversearch.docs.first.data() as Map<String, dynamic>, id);
         print(userModel.toJson());
         print('$id');
@@ -57,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else if (usersearch.docs.isNotEmpty) {
         String id = usersearch.docs.first.id;
-        userModel = user_model.fromMap(
+        userModel = User.fromMap(
             usersearch.docs.first.data() as Map<String, dynamic>, id);
         print(userModel.toJson());
         print('user has been found');

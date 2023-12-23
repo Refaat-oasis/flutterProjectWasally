@@ -1,8 +1,9 @@
-// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously, unused_import
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously, unused_import, must_be_immutable
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:project1/models/user_model.dart';
-// import 'package:project1/login_signup/signup_choose.dart';
+import '../login_signup/login_screen.dart';
+import '../models/user_model.dart';
 import '../components/constant.dart';
 import '../login_signup/signup_choose.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,37 +11,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 WriteBatch batch = FirebaseFirestore.instance.batch();
 
-// ignore: must_be_immutable
 class SettingScreen extends StatefulWidget {
+  SettingScreen(this.usermailID, this.isDriver, {super.key});
+  bool isDriver;
   String? usermailID;
-  SettingScreen(this.usermailID, {super.key});
   @override
   State<SettingScreen> createState() => _SignUpCustomerState();
 }
 
 class _SignUpCustomerState extends State<SettingScreen> {
-  late user_model user;
-
-  bool isUsernameValid = false; // Track if the username exists
+  bool isUsernameValid = false;
   var formKey = GlobalKey<FormState>();
   TextEditingController usernameeditController = TextEditingController();
   TextEditingController phonenumbereditcontroller = TextEditingController();
   TextEditingController emaileditcontroller = TextEditingController();
   TextEditingController passwordeditcontroller = TextEditingController();
   bool isVisible = true;
-
-  Future<bool> checkUsernameExistence(String username) async {
-    final QuerySnapshot querySnapshot = await _firestore
-        .collection('users')
-        .where('username', isEqualTo: username)
-        .get();
-    return querySnapshot.docs.isNotEmpty;
-  }
-
-  bool isValidUsername(String email) {
-    final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    return emailRegex.hasMatch(email);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,84 +233,50 @@ class _SignUpCustomerState extends State<SettingScreen> {
                           color: Colors.orange,
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              //  final String email = emaileditcontroller.text;
-                              // final bool isUsernameValidFormat =
-                              //     isValidUsername(email);
-
-                              // if (!isUsernameValidFormat) {
-                              //   setState(() {
-                              //     // Set an error for the username field
-                              //     // This will trigger the error message for an invalid username format
-                              //     usernameeditController
-                              //         .clear(); // Clear the text field
-                              //   });
-                              //   return; // Prevent further execution if username format is invalid
-                              // }
-
-                              // final bool isUsernameValid =
-                              //     await checkUsernameExistence(email);
-
-                              // if (isUsernameValid) {
-                              //   // Perform updates for the existing username
-                              //   // Example: Update the user's phone number and email
-                              //   batch.update(
-                              //     _firestore
-                              //         .collection('users')
-                              //         .doc(usernameeditController.text),
-                              //     {
-                              //       'phoneNumber':
-                              //           phonenumbereditcontroller.text,
-                              //       'email': emaileditcontroller.text,
-                              //       // Other fields to update
-                              //     },
-                              //   );
-
-// Commit the batch
-                              await batch.commit();
-
-                              await _firestore
-                                  .collection('users')
-                                  .doc(user.id)
-                                  .update({
-                                'username': usernameeditController.text,
-                                'phoneNumber': phonenumbereditcontroller.text,
-                                'email': emaileditcontroller.text,
-                                'password': passwordeditcontroller.text,
-                                // Add other fields that you want to update
-                              });
-                              // Proceed with navigation or any other action after update
+                              if (widget.isDriver) {
+                                await batch.commit();
+                                await _firestore
+                                    .collection('drivers')
+                                    .doc(userModel.id)
+                                    .update(
+                                  {
+                                    'username': usernameeditController.text,
+                                    'phoneNumber':
+                                        phonenumbereditcontroller.text,
+                                    'email': emaileditcontroller.text,
+                                    'password': passwordeditcontroller.text,
+                                  },
+                                );
+                              } else {
+                                await batch.commit();
+                                await _firestore
+                                    .collection('users')
+                                    .doc(userModel.id)
+                                    .update(
+                                  {
+                                    'username': usernameeditController.text,
+                                    'phoneNumber':
+                                        phonenumbereditcontroller.text,
+                                    'email': emaileditcontroller.text,
+                                    'password': passwordeditcontroller.text,
+                                  },
+                                );
+                              }
+                              ;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpChoose()),
+                                    builder: (context) => const LoginScreen()),
                               );
-                              //}
-                              // else {
-                              //   setState(() {
-                              //     // Set an error for the username field
-                              //     // This will trigger the error message for a non-existing username
-                              //     usernameeditController
-                              //         .clear(); // Clear the text field
-                              //   });
-                              // }
                             }
                           },
-                          /*
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SignUpChoose(),
-                                  ));
-                            }
-                          },
-                          */
-                          child: const Text("UPDATE",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22)),
+                          child: const Text(
+                            "UPDATE",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
                         ),
                       ),
                     ],
@@ -338,7 +290,3 @@ class _SignUpCustomerState extends State<SettingScreen> {
     );
   }
 }
-
-// Future<void> updateUser(user_model user) async {
-//   await _firestore.collection('users').doc(user.id).update(user.toJson());
-// }

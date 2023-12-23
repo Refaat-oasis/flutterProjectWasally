@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:project1/screens/chat_screen.dart';
-// import 'package:project1/screens/delivery_home.dart';
-// import 'package:project1/screens/new_order.dart';
-// import 'package:project1/screens/setting.dart';
 import '../screens/chat_screen.dart';
 import '../screens/delivery_home.dart';
 import '../screens/new_order.dart';
@@ -56,8 +52,8 @@ class LayoutScreenState extends State<LayoutScreen> {
               usermailID: widget.usermailID,
             )
           : NewOrderScreen(widget.usermailID),
-      ChatsScreen(widget.usermailID),
-      SettingScreen(widget.usermailID),
+      ChatsScreen(),
+      SettingScreen(widget.usermailID, widget.isDriver),
     ];
   }
 

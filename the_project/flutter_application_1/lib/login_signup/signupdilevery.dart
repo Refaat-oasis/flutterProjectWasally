@@ -1,9 +1,7 @@
-// ignore_for_file: sized_box_for_whitespace, must_be_immutable, use_build_context_synchronously, avoid_print
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable, use_build_context_synchronously, avoid_print, annotate_overrides
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-// import 'package:project1/login_signup/login_screen.dart';
-// import 'package:project1/login_signup/signup_choose.dart';
 import '../login_signup/login_screen.dart';
 import '../login_signup/signup_choose.dart';
 
@@ -63,7 +61,6 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
     final bool isTaken = await isUsernameTaken(email);
 
     if (isTaken) {
-      // Notify the user that the username is taken and prompt to choose another.
       print('email is already taken. Please choose another one.');
     } else {
       await FirebaseFirestore.instance.collection('users').add({
@@ -76,7 +73,6 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
     }
   }
 
-  // ignore: annotate_overrides
   void initState() {
     super.initState();
   }
@@ -328,7 +324,6 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               await adduserdetail();
-                              // adduserdetail();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

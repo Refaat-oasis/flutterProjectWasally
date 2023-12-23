@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class user_model {
+class User {
   final String? id;
   final String username;
   final String email;
   final String phonenumber;
   final String password;
 
-  const user_model(
+  const User(
       {this.id,
       required this.email,
       required this.username,
@@ -22,18 +22,18 @@ class user_model {
     };
   }
 
-  factory user_model.fromSnapshot(
+  factory User.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
-    return user_model(
+    return User(
         email: data['email'],
         username: data['username'],
         password: data['password'],
         phonenumber: data['phonenumber']);
   }
 
-  factory user_model.fromMap(Map<String, dynamic> map, String id) {
-    return user_model(
+  factory User.fromMap(Map<String, dynamic> map, String id) {
+    return User(
         id: id,
         email: map['email'],
         username: map['username'],

@@ -1,8 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-// import 'package:project1/login_signup/login_screen.dart';
-// import 'package:project1/login_signup/signup_choose.dart';
 import '../login_signup/login_screen.dart';
 import '../login_signup/signup_choose.dart';
 
@@ -12,7 +10,13 @@ class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar:AppBar(titleTextStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 30,)),
+      appBar: AppBar(
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 30,
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
