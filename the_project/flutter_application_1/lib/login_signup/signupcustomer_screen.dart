@@ -43,7 +43,6 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
       );
       return true;
     } else {
-
       return false;
     }
   }
@@ -53,7 +52,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
     final bool isTaken = await isUsernameTaken(email);
 
     if (isTaken) {
-       print('Username is already taken. Please choose another one.');
+      print('Username is already taken. Please choose another one.');
     } else {
       await FirebaseFirestore.instance.collection('users').add({
         'username': usernameController.text.trim(),

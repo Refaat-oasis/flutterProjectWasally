@@ -241,7 +241,7 @@ class _SignUpCustomerState extends State<SettingScreen> {
                                     .update(
                                   {
                                     'username': usernameeditController.text,
-                                    'phoneNumber':
+                                    'phonenumber':
                                         phonenumbereditcontroller.text,
                                     'email': emaileditcontroller.text,
                                     'password': passwordeditcontroller.text,
@@ -255,7 +255,7 @@ class _SignUpCustomerState extends State<SettingScreen> {
                                     .update(
                                   {
                                     'username': usernameeditController.text,
-                                    'phoneNumber':
+                                    'phonenumber':
                                         phonenumbereditcontroller.text,
                                     'email': emaileditcontroller.text,
                                     'password': passwordeditcontroller.text,

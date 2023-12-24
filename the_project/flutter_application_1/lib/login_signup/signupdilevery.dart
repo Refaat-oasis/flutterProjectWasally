@@ -63,7 +63,7 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
     if (isTaken) {
       print('email is already taken. Please choose another one.');
     } else {
-      await FirebaseFirestore.instance.collection('users').add({
+      await FirebaseFirestore.instance.collection('drivers').add({
         'username': usernameController.text.trim(),
         'password': passwordcontroller.text.trim(),
         'email': email,

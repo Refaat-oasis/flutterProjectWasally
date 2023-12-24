@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable
+// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable, dead_code
 
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,7 +62,9 @@ class _NewOrderState extends State<NewOrderScreen> {
   }
 
   var formKey = GlobalKey<FormState>();
-
+  bool courierpressed = false;
+  bool carpressed = false;
+  bool truckpressed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,73 +104,139 @@ class _NewOrderState extends State<NewOrderScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[350],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.directions_run),
-                              Text(
-                                'Courier',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            print('courier is tapped');
+                            setState(() {
+                              courierpressed = !courierpressed;
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: courierpressed
+                                  ? Colors.orange
+                                  : Colors.grey[350],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.directions_run,
+                                  color: courierpressed
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
-                              ),
-                              Text(
-                                'Up to 10 kg',
-                              ),
-                            ],
+                                Text(
+                                  'Courier',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: courierpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  'Up to 10 kg',
+                                  style: TextStyle(
+                                    color: courierpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[350],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.directions_car_rounded),
-                              Text(
-                                'Car',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              carpressed = !carpressed;
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color:
+                                  carpressed ? Colors.orange : Colors.grey[350],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.directions_car_rounded,
+                                  color:
+                                      carpressed ? Colors.white : Colors.black,
                                 ),
-                              ),
-                              Text(
-                                'Up to 60 kg',
-                              ),
-                            ],
+                                Text(
+                                  'Car',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: carpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  'Up to 60 kg',
+                                  style: TextStyle(
+                                    color: carpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          width: 100,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[350],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.local_shipping),
-                              Text(
-                                'Truck',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              truckpressed = !truckpressed;
+                            });
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              color: truckpressed
+                                  ? Colors.orange
+                                  : Colors.grey[350],
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.local_shipping,
+                                  color: truckpressed
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
-                              ),
-                              Text(
-                                '> 60 kg',
-                              ),
-                            ],
+                                Text(
+                                  'Truck',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: truckpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  '> 60 kg',
+                                  style: TextStyle(
+                                    color: truckpressed
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
