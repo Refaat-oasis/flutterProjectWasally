@@ -53,6 +53,23 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
 
     if (isTaken) {
       print('Username is already taken. Please choose another one.');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('signing up'),
+            content: const Text('email is already taken'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     } else {
       await FirebaseFirestore.instance.collection('users').add({
         'username': usernameController.text.trim(),

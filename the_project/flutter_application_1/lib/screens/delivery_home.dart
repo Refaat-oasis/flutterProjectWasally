@@ -14,8 +14,8 @@ class DeliveryHome extends StatelessWidget {
   final String usermailID;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: neworder.get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: neworder.orderBy('createdAt', descending: true).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ModalProgressHUD(

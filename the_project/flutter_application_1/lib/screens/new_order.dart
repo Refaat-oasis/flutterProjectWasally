@@ -29,6 +29,7 @@ class _NewOrderState extends State<NewOrderScreen> {
   final TextEditingController toname = TextEditingController();
   final TextEditingController tophone = TextEditingController();
   final TextEditingController toaddress = TextEditingController();
+
   Future addneworder() async {
     try {
       await FirebaseFirestore.instance.collection('neworder').add({
@@ -46,6 +47,7 @@ class _NewOrderState extends State<NewOrderScreen> {
         'toname': toname.text.trim(),
         'tophone': tophone.text.trim(),
         'toaddress': toaddress.text.trim(),
+        'createdAt': DateTime.now(),
       });
       print('Order added successfully!');
     } catch (e) {

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, must_be_immutable, unused_import
+// ignore_for_file: sized_box_for_whitespace, must_be_immutable, unused_import, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +38,35 @@ class _TrackingScreenState extends State<TrackingScreen> {
     }
   }
 
+  String? id;
+
+  Future<void> passorder() async {
+    QuerySnapshot orderended = await FirebaseFirestore.instance
+        .collection('neworder')
+        .where('fromstreet', isEqualTo: widget.neworder.fromstreet)
+        .where('tostreet', isEqualTo: widget.neworder.tostreet)
+        .where('fromphone', isEqualTo: widget.neworder.fromphone)
+        .get();
+
+    print('sadaoidsadsinaidijsadssioadjad ${orderended.docs.first.id}');
+    id = orderended.docs.first.id;
+    deleteorder();
+  }
+
+  CollectionReference endedorder =
+      FirebaseFirestore.instance.collection('neworder');
+  Future<void> deleteorder() {
+    return endedorder
+        .doc(id)
+        .delete()
+        .then((value) => print("order Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: null,
+      stream: const Stream.empty(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Scaffold(
           appBar: AppBar(
@@ -104,6 +129,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
                             Row(children: [
                               Text(driverName(widget.isDriver),
                                   style: const TextStyle(fontSize: 20)),
+                              const Spacer(),
+                              Text(
+                                isAccepted(widget.isaccepted),
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.orange,
+                                ),
+                              ),
                               const Spacer(),
                               Text(driverPhone(widget.isDriver),
                                   style: const TextStyle(
@@ -177,27 +210,44 @@ class _TrackingScreenState extends State<TrackingScreen> {
                               const Text('20\$',
                                   style: TextStyle(fontSize: 25)),
                               const Spacer(),
-                              Text(
-                                isAccepted(widget.isaccepted),
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                              const Spacer(),
                               MaterialButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18)),
                                 color: Colors.orange,
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  if (widget.isDriver) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    passorder();
+                                    Navigator.pop(context);
+                                  }
                                 },
                                 child: const Text(
-                                  "deliverd",
+                                  "cancel",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22),
+                                ),
+                              ),
+                              const Spacer(),
+                              Visibility(
+                                visible: widget.isDriver,
+                                child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18)),
+                                  color: Colors.orange,
+                                  onPressed: () {
+                                    passorder();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "deliverd",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 22),
+                                  ),
                                 ),
                               ),
                             ])
