@@ -7,11 +7,8 @@ import '../screens/setting.dart';
 class LayoutScreen extends StatefulWidget {
   static const String routeName = 'layout';
   final bool isDriver;
-  final String usermailID;
 
-  // LayoutScreen(this.isDriver, this.username, {super.key});
-  const LayoutScreen(this.isDriver, this.usermailID, {Key? key})
-      : super(key: key);
+  const LayoutScreen(this.isDriver, {Key? key}) : super(key: key);
 
   @override
   State<LayoutScreen> createState() => LayoutScreenState();
@@ -47,13 +44,9 @@ class LayoutScreenState extends State<LayoutScreen> {
     ];
 
     screens = [
-      widget.isDriver
-          ? DeliveryHome(
-              usermailID: widget.usermailID,
-            )
-          : NewOrderScreen(widget.usermailID),
-      ChatsScreen(),
-      SettingScreen(widget.usermailID, widget.isDriver),
+      widget.isDriver ? DeliveryHome() : const NewOrderScreen(),
+      ChatsScreen(widget.isDriver),
+      SettingScreen(widget.isDriver),
     ];
   }
 

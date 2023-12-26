@@ -304,7 +304,7 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                             final RegExp passwordRegex = RegExp(
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                             if (!passwordRegex.hasMatch(value!)) {
-                              return 'Weak Password';
+                              return 'Invalid Password';
                             } else {
                               return null;
                             }

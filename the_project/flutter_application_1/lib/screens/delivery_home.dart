@@ -6,12 +6,12 @@ import '../screens/tracking_screen.dart';
 import '../models/neworder.dart';
 
 class DeliveryHome extends StatelessWidget {
-  DeliveryHome({required this.usermailID, super.key});
+  DeliveryHome({super.key});
 
   CollectionReference neworder =
       FirebaseFirestore.instance.collection('neworder');
   bool isloading = true;
-  final String usermailID;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -40,7 +40,6 @@ class DeliveryHome extends StatelessWidget {
                       itemCount: neworderlist.length,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) => deliveryorders(
-                        usermailID: usermailID,
                         neworder: neworderlist[index],
                       ),
                       separatorBuilder: (context, index) => const SizedBox(
@@ -59,10 +58,29 @@ class DeliveryHome extends StatelessWidget {
 }
 
 class deliveryorders extends StatelessWidget {
-  deliveryorders({required this.usermailID, required this.neworder, super.key});
+  deliveryorders({required this.neworder, super.key});
 
   Neworder neworder;
-  final String usermailID;
+  late String deliverymethod;
+  String usedmethod() {
+    deliverymethod = neworder.deliverymethod;
+    return deliverymethod;
+  }
+
+  String getTextBasedOnMethod() {
+    String methodResult = usedmethod();
+
+    if (methodResult == "car") {
+      return "40\$";
+    } else if (methodResult == "courier") {
+      return "25\$";
+    } else if (methodResult == "truck") {
+      return "50\$";
+    } else {
+      return "ask user";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,42 +128,56 @@ class deliveryorders extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
                         children: [
                           Icon(Icons.directions_car_rounded,
-                              color: Colors.grey),
+                              color: usedmethod() == "car"
+                                  ? Colors.orange
+                                  : Colors.grey),
                           Text(
                             'car',
                             style: TextStyle(
                               fontSize: 25,
-                              color: Colors.grey,
+                              color: usedmethod() == "car"
+                                  ? Colors.orange
+                                  : Colors.grey,
                             ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(Icons.directions_run, color: Colors.orange),
+                          Icon(Icons.directions_run,
+                              color: usedmethod() == "courier"
+                                  ? Colors.orange
+                                  : Colors.grey),
                           Text(
                             'courier',
                             style: TextStyle(
                               fontSize: 25,
-                              color: Colors.orange,
+                              color: usedmethod() == "courier"
+                                  ? Colors.orange
+                                  : Colors.grey,
                             ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
-                          Icon(Icons.local_shipping, color: Colors.grey),
+                          Icon(Icons.local_shipping,
+                              color: usedmethod() == "truck"
+                                  ? Colors.orange
+                                  : Colors.grey),
                           Text(
                             'truck',
                             style: TextStyle(
                               fontSize: 25,
-                              color: Colors.grey,
+                              color: usedmethod() == "truck"
+                                  ? Colors.orange
+                                  : Colors.grey,
                             ),
                           ),
                         ],
@@ -176,7 +208,8 @@ class deliveryorders extends StatelessWidget {
                   const Divider(
                       color: Colors.orangeAccent, thickness: 3, endIndent: 25),
                   Row(children: [
-                    const Text('20\$', style: TextStyle(fontSize: 25)),
+                    Text(getTextBasedOnMethod(),
+                        style: const TextStyle(fontSize: 25)),
                     const Spacer(),
                     Container(
                       width: 110,
@@ -195,7 +228,6 @@ class deliveryorders extends StatelessWidget {
                                   isDriver: true,
                                   neworder: neworder,
                                   isaccepted: isaccepted,
-                                  usermailID: usermailID,
                                 ),
                               ),
                             );

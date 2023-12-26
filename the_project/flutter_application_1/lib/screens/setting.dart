@@ -12,9 +12,9 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 WriteBatch batch = FirebaseFirestore.instance.batch();
 
 class SettingScreen extends StatefulWidget {
-  SettingScreen(this.usermailID, this.isDriver, {super.key});
+  SettingScreen(this.isDriver, {super.key});
   bool isDriver;
-  String? usermailID;
+
   @override
   State<SettingScreen> createState() => _SignUpCustomerState();
 }
@@ -108,8 +108,10 @@ class _SignUpCustomerState extends State<SettingScreen> {
                             ),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required username';
+                            final RegExp usernameRegex =
+                                RegExp(r'^[a-zA-Z0-9_]{4,15}$');
+                            if (!usernameRegex.hasMatch(value!)) {
+                              return 'Invalid username';
                             } else {
                               return null;
                             }
@@ -126,8 +128,9 @@ class _SignUpCustomerState extends State<SettingScreen> {
                           controller: phonenumbereditcontroller,
                           keyboardType: TextInputType.phone,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required number';
+                            final RegExp phoneRegex = RegExp(r'^[0-9]{7,}$');
+                            if (!phoneRegex.hasMatch(value!)) {
+                              return 'Invalid phone number';
                             } else {
                               return null;
                             }
@@ -155,6 +158,15 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         height: 60,
                         child: TextFormField(
                           controller: emaileditcontroller,
+                          validator: (value) {
+                            final RegExp emailRegex =
+                                RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                            if (!emailRegex.hasMatch(value!)) {
+                              return 'Invalid email address';
+                            } else {
+                              return null;
+                            }
+                          },
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -181,8 +193,10 @@ class _SignUpCustomerState extends State<SettingScreen> {
                         child: TextFormField(
                           controller: passwordeditcontroller,
                           validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'required user password';
+                            final RegExp passwordRegex = RegExp(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                            if (!passwordRegex.hasMatch(value!)) {
+                              return 'Invalid Password';
                             } else {
                               return null;
                             }

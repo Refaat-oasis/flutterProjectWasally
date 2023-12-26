@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String usermailID = "unknown";
+
   bool? isDriver;
 
   Future<void> _searchUser(
@@ -44,13 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
         print('$id');
 
         print('driver has been found');
-        usermailID = emailController.text;
-        print('$usermailID');
+
         isDriver = true;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LayoutScreen(isDriver!, usermailID),
+            builder: (context) => LayoutScreen(isDriver!),
           ),
         );
       } else if (usersearch.docs.isNotEmpty) {
@@ -59,13 +58,12 @@ class _LoginScreenState extends State<LoginScreen> {
             usersearch.docs.first.data() as Map<String, dynamic>, id);
         print(userModel.toJson());
         print('user has been found');
-        usermailID = emailController.text;
-        print('$usermailID');
+
         isDriver = false;
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LayoutScreen(isDriver!, usermailID),
+            builder: (context) => LayoutScreen(isDriver!),
           ),
         );
       } else {
@@ -171,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'required user name';
+                              return 'required email';
                             } else {
                               return null;
                             }

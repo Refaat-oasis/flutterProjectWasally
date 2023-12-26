@@ -10,9 +10,7 @@ class TrackingScreen extends StatefulWidget {
       {required this.neworder,
       required this.isDriver,
       required this.isaccepted,
-      required this.usermailID,
       super.key});
-  final String usermailID;
   final Neworder neworder;
   final bool isaccepted;
   final bool isDriver;
@@ -26,7 +24,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     if (isDriver) {
       return userModel.username;
     } else {
-      return "pending";
+      return "";
     }
   }
 
@@ -34,11 +32,12 @@ class _TrackingScreenState extends State<TrackingScreen> {
     if (isDriver) {
       return userModel.phonenumber;
     } else {
-      return "pending";
+      return "";
     }
   }
 
-  String? id;
+  late String id;
+  late String deliverymethod;
 
   Future<void> passorder() async {
     QuerySnapshot orderended = await FirebaseFirestore.instance
@@ -61,6 +60,25 @@ class _TrackingScreenState extends State<TrackingScreen> {
         .delete()
         .then((value) => print("order Deleted"))
         .catchError((error) => print("Failed to delete user: $error"));
+  }
+
+  String usedmethod() {
+    deliverymethod = widget.neworder.deliverymethod;
+    return deliverymethod;
+  }
+
+  String getTextBasedOnMethod() {
+    String methodResult = usedmethod();
+
+    if (methodResult == "car") {
+      return "40\$";
+    } else if (methodResult == "courier") {
+      return "25\$";
+    } else if (methodResult == "truck") {
+      return "50\$";
+    } else {
+      return "ask user";
+    }
   }
 
   @override
@@ -147,39 +165,51 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 color: Colors.orangeAccent,
                                 thickness: 3,
                                 endIndent: 25),
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Row(
                                   children: [
                                     Icon(Icons.directions_car_rounded,
-                                        color: Colors.grey),
+                                        color: usedmethod() == "car"
+                                            ? Colors.orange
+                                            : Colors.grey),
                                     Text('car',
                                         style: TextStyle(
                                           fontSize: 25,
-                                          color: Colors.grey,
+                                          color: usedmethod() == "car"
+                                              ? Colors.orange
+                                              : Colors.grey,
                                         )),
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Icon(Icons.directions_run,
-                                        color: Colors.orange),
+                                        color: usedmethod() == "courier"
+                                            ? Colors.orange
+                                            : Colors.grey),
                                     Text('courier',
                                         style: TextStyle(
                                           fontSize: 25,
-                                          color: Colors.orange,
+                                          color: usedmethod() == "courier"
+                                              ? Colors.orange
+                                              : Colors.grey,
                                         )),
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Icon(Icons.local_shipping,
-                                        color: Colors.grey),
+                                        color: usedmethod() == "truck"
+                                            ? Colors.orange
+                                            : Colors.grey),
                                     Text('truck',
                                         style: TextStyle(
                                           fontSize: 25,
-                                          color: Colors.grey,
+                                          color: usedmethod() == "truck"
+                                              ? Colors.orange
+                                              : Colors.grey,
                                         )),
                                   ],
                                 ),
@@ -207,8 +237,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 thickness: 3,
                                 endIndent: 25),
                             Row(children: [
-                              const Text('20\$',
-                                  style: TextStyle(fontSize: 25)),
+                              Text(getTextBasedOnMethod(),
+                                  style: const TextStyle(fontSize: 25)),
                               const Spacer(),
                               MaterialButton(
                                 shape: RoundedRectangleBorder(

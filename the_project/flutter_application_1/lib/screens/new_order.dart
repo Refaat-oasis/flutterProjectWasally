@@ -7,8 +7,7 @@ import '../models/neworder.dart';
 import '../screens/tracking_screen.dart';
 
 class NewOrderScreen extends StatefulWidget {
-  NewOrderScreen(this.usermailID, {super.key});
-  String? usermailID;
+  const NewOrderScreen({super.key});
 
   @override
   State<NewOrderScreen> createState() => _NewOrderState();
@@ -48,6 +47,7 @@ class _NewOrderState extends State<NewOrderScreen> {
         'tophone': tophone.text.trim(),
         'toaddress': toaddress.text.trim(),
         'createdAt': DateTime.now(),
+        'deliverymethod': deliverymethod,
       });
       print('Order added successfully!');
     } catch (e) {
@@ -55,11 +55,19 @@ class _NewOrderState extends State<NewOrderScreen> {
     }
   }
 
+  late String deliverymethod;
   Neworder sendorder() {
     String startpos = fromstreet.text.trim();
     String endpos = tostreet.text.trim();
     String startphone = fromphone.text.trim();
-    Neworder neworder = Neworder(startpos, endpos, startphone);
+    if (courierpressed) {
+      deliverymethod = "courier";
+    } else if (carpressed) {
+      deliverymethod = "car";
+    } else if (truckpressed) {
+      deliverymethod = "truck";
+    }
+    Neworder neworder = Neworder(startpos, endpos, startphone, deliverymethod);
     return neworder;
   }
 
@@ -579,7 +587,6 @@ class _NewOrderState extends State<NewOrderScreen> {
                             if (formKey.currentState!.validate()) {
                               addneworder();
                               const bool isaccepted = false;
-
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -587,7 +594,6 @@ class _NewOrderState extends State<NewOrderScreen> {
                                       isDriver: false,
                                       neworder: sendorder(),
                                       isaccepted: isaccepted,
-                                      usermailID: "",
                                     ),
                                   ));
                             }

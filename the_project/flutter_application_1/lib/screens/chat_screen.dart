@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, unused_import
+// ignore_for_file: must_be_immutable, unused_import, use_key_in_widget_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -8,90 +8,72 @@ import '../components/constant.dart';
 import 'chats_detiels_screen.dart';
 
 class ChatsScreen extends StatelessWidget {
-  ChatsScreen({super.key});
-
-  CollectionReference drivers =
-      FirebaseFirestore.instance.collection('drivers');
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  ChatsScreen(this.isDriver, {Key? key});
+  late bool isDriver;
+  late CollectionReference theotherone;
 
   @override
   Widget build(BuildContext context) {
+    if (isDriver) {
+      theotherone = FirebaseFirestore.instance.collection('users');
+    } else {
+      theotherone = FirebaseFirestore.instance.collection('drivers');
+    }
     return ConditionalBuilder(
       condition: true,
-      builder: (context) => ListView.separated(
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildChatItem(context),
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: 5,
+      builder: (context) => FutureBuilder<QuerySnapshot>(
+        future: theotherone.get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<chatuser> listuserchatnames = [];
+            for (int i = 0; i < snapshot.data!.docs.length; i++) {
+              listuserchatnames.add(chatuser.fromJson(snapshot.data!.docs[i]));
+            }
+
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) =>
+                  buildChatItem(context, listuserchatnames[index]),
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: listuserchatnames.length,
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       fallback: (context) => const Center(child: CircularProgressIndicator()),
     );
   }
 
-  Widget buildChatItem(context) => InkWell(
+  Widget buildChatItem(BuildContext context, chatuser user) => InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatsDetailsScreen(),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatsDetailsScreen(),
+            ),
+          );
         },
-        child: FutureBuilder<QuerySnapshot>(
-          future: users.get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<userchat> listuserchatnames = [];
-              for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                listuserchatnames
-                    .add(userchat.fromJson(snapshot.data!.docs[i]));
-              }
-              return const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 25.0,
-                      backgroundImage: AssetImage(
-                        'assets/images/dilevery_logo.png',
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15.0,
-                    ),
-                    Text(
-                      'mohamed',
-                      style: TextStyle(
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 25.0,
+                backgroundImage: AssetImage('assets/images/dilevery_logo.png'),
+              ),
+              const SizedBox(
+                width: 15.0,
+              ),
+              Text(
+                user.userchatname,
+                style: const TextStyle(
+                  height: 1.4,
                 ),
-              );
-            } else {
-              return const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 25.0,
-                      backgroundImage: AssetImage(
-                        'assets/images/dilevery_logo.png',
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15.0,
-                    ),
-                    Text(
-                      'unknown',
-                      style: TextStyle(
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
+              ),
+            ],
+          ),
         ),
       );
 }

@@ -34,7 +34,9 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
             content: const Text('email is already taken'),
             actions: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const Text('OK'),
               ),
             ],
@@ -230,7 +232,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                             final RegExp passwordRegex = RegExp(
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
                             if (!passwordRegex.hasMatch(value!)) {
-                              return 'Weak Password';
+                              return 'Invalid Password';
                             } else {
                               return null;
                             }
