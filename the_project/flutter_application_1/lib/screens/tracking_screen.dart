@@ -81,6 +81,44 @@ class _TrackingScreenState extends State<TrackingScreen> {
     }
   }
 
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  WriteBatch batch = FirebaseFirestore.instance.batch();
+  bool _methodCalled = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_methodCalled) {
+      // Assuming neworder is an instance of the Neworder class
+      searchorderaccepted(context, widget.neworder);
+      _methodCalled = true;
+    }
+  }
+
+  Future<void> searchorderaccepted(
+      BuildContext context, Neworder neworder) async {
+    try {
+      QuerySnapshot searchorderaccepted = await FirebaseFirestore.instance
+          .collection('neworder')
+          .where('fromstreet', isEqualTo: neworder.fromstreet)
+          .where('tostreet', isEqualTo: neworder.tostreet)
+          .where('fromphone', isEqualTo: neworder.fromphone)
+          .get();
+
+      if (searchorderaccepted.docs.isNotEmpty) {
+        String id = searchorderaccepted.docs.first.id;
+        await batch.commit();
+        await firestore.collection('neworder').doc(id).update(
+          {
+            'drivername': userModel.username,
+          },
+        );
+      }
+    } catch (e) {
+      print('$e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(

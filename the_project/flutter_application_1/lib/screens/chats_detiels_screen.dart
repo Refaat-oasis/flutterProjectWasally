@@ -44,7 +44,7 @@ class ChatsDetailsScreen extends StatelessWidget {
                     width: 5.0,
                   ),
                   Text(
-                    'Mohammed',
+                    'Chat',
                     style: TextStyle(fontSize: 15),
                   ),
                 ],

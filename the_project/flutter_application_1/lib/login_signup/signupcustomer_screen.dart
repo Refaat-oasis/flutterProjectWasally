@@ -18,67 +18,18 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
 
-  Future<bool> isUsernameTaken(String email) async {
-    final QuerySnapshot query = await FirebaseFirestore.instance
-        .collection('users')
-        .where('email', isEqualTo: email)
-        .get();
-
-    if (query.docs.isNotEmpty) {
-      print("email is already taken");
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('signing up'),
-            content: const Text('email is already taken'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<void> adduserdetail() async {
-    final String email = emailcontroller.text.trim();
-    final bool isTaken = await isUsernameTaken(email);
-
-    if (isTaken) {
-      print('Username is already taken. Please choose another one.');
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('signing up'),
-            content: const Text('email is already taken'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
+  Future addnewuser() async {
+    print('add new user');
+    try {
       await FirebaseFirestore.instance.collection('users').add({
         'username': usernameController.text.trim(),
+        'email': emailcontroller.text.trim(),
         'password': passwordcontroller.text.trim(),
-        'email': email,
         'phonenumber': phonenumbercontroller.text.trim(),
       });
+      print('user added successfully!');
+    } catch (e) {
+      print('Error adding user: $e');
     }
   }
 
@@ -283,7 +234,12 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                           color: Colors.orange,
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await adduserdetail();
+                              await addnewuser();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ));
                             }
                           },
                           child: const Text("Create Account",

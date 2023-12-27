@@ -21,55 +21,19 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController vechiletypecontroller = TextEditingController();
 
-  // Future signUp() async {
-
-  Future<bool> isUsernameTaken(String email) async {
-    final QuerySnapshot query = await FirebaseFirestore.instance
-        .collection('drivers')
-        .where('email', isEqualTo: email)
-        .get();
-
-    if (query.docs.isNotEmpty) {
-      print("email is already taken");
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('signing up'),
-            content: const Text('email is already taken'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-      return true;
-    } else {
-      print("user is not taken");
-
-      return false;
-    }
-  }
-
-  Future adduserdetail() async {
-    final String email = emailcontroller.text.trim();
-    final bool isTaken = await isUsernameTaken(email);
-
-    if (isTaken) {
-      print('email is already taken. Please choose another one.');
-    } else {
+  Future addnewuser() async {
+    print('add new driver');
+    try {
       await FirebaseFirestore.instance.collection('drivers').add({
         'username': usernameController.text.trim(),
+        'email': emailcontroller.text.trim(),
         'password': passwordcontroller.text.trim(),
-        'email': email,
         'phonenumber': phonenumbercontroller.text.trim(),
-        'vechiletype': vechiletypecontroller.text.trim(),
+        'vechiletype': vechiletypecontroller.text.trim()
       });
+      print('driver added successfully!');
+    } catch (e) {
+      print('Error adding user: $e');
     }
   }
 
@@ -323,7 +287,7 @@ class _SignUpDileveryState extends State<SignUpDilevery> {
                           color: Colors.orange,
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              await adduserdetail();
+                              await addnewuser();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

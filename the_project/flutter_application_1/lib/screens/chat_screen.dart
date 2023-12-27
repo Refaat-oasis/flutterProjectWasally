@@ -28,6 +28,7 @@ class ChatsScreen extends StatelessWidget {
             List<chatuser> listuserchatnames = [];
             for (int i = 0; i < snapshot.data!.docs.length; i++) {
               listuserchatnames.add(chatuser.fromJson(snapshot.data!.docs[i]));
+              print('DocumentSnapshot data: ${snapshot.data!.docs[i]}');
             }
 
             return ListView.separated(

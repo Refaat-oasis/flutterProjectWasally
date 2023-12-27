@@ -48,6 +48,7 @@ class _NewOrderState extends State<NewOrderScreen> {
         'toaddress': toaddress.text.trim(),
         'createdAt': DateTime.now(),
         'deliverymethod': deliverymethod,
+        'drivername': "",
       });
       print('Order added successfully!');
     } catch (e) {
